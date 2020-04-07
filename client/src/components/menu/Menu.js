@@ -14,10 +14,10 @@ export default class Menu extends React.Component {
             <Link to="/">Каталог игр</Link>
           </li>
           <li>
-            <a href="/my-games">Мой игры</a>
+            <Link to="/my-games">Мой игры</Link>
           </li>
           <li>
-            <a href="/about">о Нас</a>
+            <Link to="/account">BEKzy</Link>
           </li>
         </nav>
       </div>
