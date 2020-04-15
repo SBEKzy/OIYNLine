@@ -1,14 +1,25 @@
 import React from "react";
 import "./Menu.css";
 import { Link } from 'react-router-dom';
+import {MyContext} from '../../context/MyContext'
 export default class Menu extends React.Component {
-  render() {
+ 
+// componentDidMount(){
+//   this.setState({isAuth : this.props.isAuth});
+// }
+static contextType = MyContext;
+render() {
+    let user = ""
+    if(this.context.Auth.isAuthenticated){
+        user = JSON.parse(localStorage.getItem('user_data')).username;
+    }
     return (
       <div className="Menu">
         <h1>OYINLine</h1>
         <nav>
           <li>
-            <Link to="/login">Войти</Link>
+            {!this.context.Auth.isAuthenticated ? <Link to="/login">Войти</Link> : <Link to="/account">{user}</Link>}
+            
           </li>
           <li>
             <Link to="/">Каталог игр</Link>
@@ -16,9 +27,7 @@ export default class Menu extends React.Component {
           <li>
             <Link to="/my-games">Мой игры</Link>
           </li>
-          <li>
-            <Link to="/account">BEKzy</Link>
-          </li>
+          
         </nav>
       </div>
     );

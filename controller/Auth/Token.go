@@ -11,7 +11,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
-func CreateToken(id uint32) (string, error) {
+func CreateToken(id int) (string, error) {
 	claims := jwt.MapClaims{}
 	claims["authorized"] = true
 	claims["id"] = id

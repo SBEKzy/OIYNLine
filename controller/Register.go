@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	security "github.com/OIYNLine/controller/security"
 	models "github.com/OIYNLine/model"
 	"github.com/gin-gonic/gin"
 )
@@ -19,16 +20,25 @@ func (s *Server) Register(c *gin.Context) {
 		return
 	}
 	//валидация жасауга болады
-	fmt.Println("-*-*-*")
-	fmt.Println(user)
+	hashPass, errr := security.Hash(user.Password)
+	if errr != nil {
+		c.JSON(http.StatusUnprocessableEntity, gin.H{
+			"status":      http.StatusUnprocessableEntity,
+			"first error": "Error to hash password",
+		})
+		return
+	}
+	user.Password = string(hashPass)
 	err = s.DB.Create(&user).Error
-	fmt.Println("-*-*-*")
-	fmt.Println(err)
+
 	if err != nil {
+		fmt.Println("ERRRRooooooooorrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": http.StatusInternalServerError,
-			"error":  err,
+			"error":  "Email or username has exict",
+			"code":   "5",
 		})
+		c.Error(err).SetMeta("BEKzy 2")
 		return
 	}
 	c.JSON(http.StatusCreated, gin.H{

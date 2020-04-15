@@ -34,3 +34,14 @@
     border-left: 1px solid lightblue;
 }
 
+.success{
+    color: green;
+    font-size: 21px;
+
+}
+
+.error{
+    color: red;
+    font-size: 21px;
+    
+}

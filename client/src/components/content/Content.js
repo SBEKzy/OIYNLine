@@ -4,6 +4,8 @@ import "./Content.css";
 import Catalog from "./catalog/Catalog";
 import Login from "./login/Login";
 import NotFound from "./notFound/NotFound";
+import MyGames from "./myGames/MyGames";
+import Account from "./account/Account";
 import {  Switch, Route } from "react-router-dom";
 
 export default class Content extends React.Component {
@@ -15,6 +17,8 @@ export default class Content extends React.Component {
         <Switch>
           <Route exact path="/" component={Catalog} />
           <Route exact path="/login" component={Login} />
+          <Route exact path="/my-games" component={MyGames} />
+          <Route exact path="/account" component={Account} />
           <Route exact path="" component={NotFound} />
         </Switch>
       </div>
