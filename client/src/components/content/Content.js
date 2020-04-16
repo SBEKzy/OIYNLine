@@ -7,7 +7,7 @@ import NotFound from "./notFound/NotFound";
 import MyGames from "./myGames/MyGames";
 import Account from "./account/Account";
 import {  Switch, Route } from "react-router-dom";
-
+import TicTacToe from '../game/tictactoe/Game'
 export default class Content extends React.Component {
   render() {
     return (
@@ -19,6 +19,7 @@ export default class Content extends React.Component {
           <Route exact path="/login" component={Login} />
           <Route exact path="/my-games" component={MyGames} />
           <Route exact path="/account" component={Account} />
+          <Route exact path="/tictactoe" component={TicTacToe} />
           <Route exact path="" component={NotFound} />
         </Switch>
       </div>
