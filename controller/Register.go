@@ -35,7 +35,7 @@ func (s *Server) Register(c *gin.Context) {
 		fmt.Println("ERRRRooooooooorrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": http.StatusInternalServerError,
-			"error":  "Email or username has exict",
+			"error":  "Email or username a exict",
 			"code":   "5",
 		})
 		c.Error(err).SetMeta("BEKzy 2")
