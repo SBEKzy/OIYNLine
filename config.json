@@ -1,6 +1,0 @@
-{
-    "Host" : "localhost",
-    "DbName" : "oyinline",
-    "DbPassword" : "password",
-    "DbUser" : "postgres"
-}
