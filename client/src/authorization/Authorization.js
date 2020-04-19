@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 export const setAuthorizationToken = (token) => {
   if (token) {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -28,26 +27,22 @@ export const login = (reg, setAuth) => {
   });
 };
 
-export const register = (reg,regResult) => {
+export const register = (reg, regResult) => {
   let r;
- const t = axios
+  axios
     .post("http://localhost:8080/api/register", JSON.stringify(reg))
-    .then((response) => {      
-      if(response.status == 201){
+    .then((response) => {
+      if (response.status === 201) {
         console.log("Success");
-        regResult("SUCCESS")
+        regResult("SUCCESS");
       }
-      
     })
     .catch((error) => {
-      if(error.response.data.code == "5"){
+      if (error.response.data.code === "5") {
         console.log("Error");
-        regResult("ERROR")       
+        regResult("ERROR");
       }
     });
-    
-    
-    
-    return r;
-};
 
+  return r;
+};

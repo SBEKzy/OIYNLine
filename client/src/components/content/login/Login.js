@@ -1,6 +1,6 @@
 import React from "react";
 import "./Login.css";
-import axios from "axios";
+
 import { login } from "../../../authorization/Authorization";
 import { register } from "../../../authorization/Authorization";
 import { MyContext } from "../../../context/MyContext";
@@ -28,7 +28,6 @@ export default class Login extends React.Component {
       username: username,
     };
     register(reg, this.regResult);
-    
   };
   regResult = (res) => {
     switch (res) {
@@ -38,14 +37,20 @@ export default class Login extends React.Component {
           regSuccess: "регистрация прошла успешно",
           regError: null,
         });
-        return
+        return;
       case "ERROR":
         console.log("switch err");
         this.setState({
           regError: "email или username существует",
           regSuccess: null,
         });
-        return
+        return;
+       default:
+        this.setState({
+          regError: "Error",
+          regSuccess: null,
+        });
+        return;
     }
   };
   loginSubmit = (e) => {
@@ -92,8 +97,16 @@ export default class Login extends React.Component {
             <input type="text" name="username" placeholder="Никнейм" />
             <input type="password" name="password" placeholder="Пароль" />
             <input type="password" placeholder="Подверждение пароля" />
-            {this.state.regSuccess ? <p className="success">{this.state.regSuccess}</p> : ""}
-            {this.state.regError ? <p className="error">{this.state.regError}</p> : ""}
+            {this.state.regSuccess ? (
+              <p className="success">{this.state.regSuccess}</p>
+            ) : (
+              ""
+            )}
+            {this.state.regError ? (
+              <p className="error">{this.state.regError}</p>
+            ) : (
+              ""
+            )}
 
             <input type="submit" />
           </form>

@@ -1,13 +1,30 @@
 import React from "react";
 import "./Game.css";
 import Board from "./board/Board";
+import {  sendMsg,socket } from "../../content/webscoket/Socket";
 export default class Game extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       squares: Array(9).fill(null),
-      xIsNext: true,
+      xIsNext: this.props.location.state.x,
     };
+    socket.onmessage = this.ch
+    
+  }
+  componentDidMount(){
+    console.log("didmutn");
+    this.setState({squares: this.state.squares})
+  }
+
+  ch = (msg) => {
+    const p = JSON.parse(msg.data)
+    console.log("BEKzy",p)
+    console.log("BEKzy",p[0])
+    this.setState({
+      squares: p.body,
+     // xIsNext: !this.state.xIsNext,
+    });
   }
   handleClick = (i) => {
     let square = this.state.squares;
@@ -15,11 +32,7 @@ export default class Game extends React.Component {
       return;
     }
     square[i] = this.state.xIsNext ? "X" : "O";
-
-    this.setState({
-      squares: square,
-      xIsNext: !this.state.xIsNext,
-    });
+    sendMsg(square)
   };
   render() {
     const winner = calculateWinner(this.state.squares);

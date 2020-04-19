@@ -5,9 +5,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {setAuthorizationToken} from './authorization/Authorization'
 if (localStorage.token){
-  setAuthorizationToken(localStorage.token) 
-  let userData = localStorage.getItem('user_data') == null ? null : JSON.parse(localStorage.getItem('user_data'))
-
+  setAuthorizationToken(localStorage.token)
 }
 
 export const AuthContext = React.createContext();
