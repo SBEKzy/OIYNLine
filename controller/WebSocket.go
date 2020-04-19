@@ -6,7 +6,6 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-
 	"github.com/gorilla/websocket"
 )
 
@@ -43,13 +42,22 @@ func Upgrade(w http.ResponseWriter, r *http.Request) (*websocket.Conn, error) {
 	return conn, nil
 }
 
-func (s *Server) serveWs(c *gin.Context, pool *Pool) {
+func (s *Server) serveWs(c *gin.Context) {
 	fmt.Println("WebSocket Endpoint Hit")
 	conn, err := Upgrade(c.Writer, c.Request)
 	if err != nil {
 		fmt.Fprintf(c.Writer, "%+V\n", err)
 	}
-
+	var pool *Pool
+	if len(freePools) > 0 {
+		for _, p := range freePools {
+			pool = p
+			break
+		}
+	} else {
+		pool = NewPool()
+	}
+	go pool.Start()
 	client := &Client{
 		Conn: conn,
 		Pool: pool,

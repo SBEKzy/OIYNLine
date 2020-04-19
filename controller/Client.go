@@ -4,8 +4,12 @@ import (
 	"log"
 	"strings"
 
+	"github.com/OIYNLine/controller/utils"
 	"github.com/gorilla/websocket"
 )
+
+var freePools = make(map[string]*Pool)
+var poolsCount int
 
 type Client struct {
 	ID    string
@@ -51,6 +55,7 @@ func (c *Client) Read() {
 }
 
 type Pool struct {
+	Name         string
 	Register     chan *Client
 	Unregister   chan *Client
 	Clients      map[*Client]bool
@@ -60,7 +65,11 @@ type Pool struct {
 }
 
 func NewPool() *Pool {
-	return &Pool{
+	name := utils.RandString(16)
+
+	//go pool.Start()
+	pool := &Pool{
+		Name:         name,
 		Register:     make(chan *Client),
 		Unregister:   make(chan *Client),
 		Clients:      make(map[*Client]bool),
@@ -68,38 +77,59 @@ func NewPool() *Pool {
 		ReadyClients: make(map[*Client]bool),
 		Ready:        make(chan *Client),
 	}
+
+	freePools[name] = pool
+	poolsCount++
+
+	return pool
 }
 
-func (pool *Pool) Start() {
+func (p *Pool) Start() {
+	defer func() {
+		delete(freePools, p.Name)
+		poolsCount--
+		log.Print("Pool closed:", p.Name)
+	}()
+
 	for {
 		select {
-		case client := <-pool.Register:
-			pool.Clients[client] = true
-			for client, _ := range pool.Clients {
-				client.Conn.WriteJSON(Message{Type: 1, Gamer: len(pool.Clients), Body: bbb, Ready: len(pool.ReadyClients)})
+		case client := <-p.Register:
+			p.Clients[client] = true
+			log.Print("-----------------------------------", len(p.Clients))
+			log.Print("-----------------------------------", freePools)
+			if len(p.Clients) == 2 {
+				log.Print("-----------------------------------", len(p.Clients))
+				delete(freePools, p.Name)
+				for client, _ := range p.Clients {
+					client.Conn.WriteJSON(Message{Type: 1, Gamer: len(p.Clients), Body: bbb, Ready: len(p.ReadyClients)})
+				}
+			}
+
+			break
+		case client := <-p.Unregister:
+			delete(p.Clients, client)
+			delete(p.ReadyClients, client)
+			for clinet, _ := range p.Clients {
+				clinet.Conn.WriteJSON(Message{Type: 1, Gamer: len(p.Clients), Body: bbb, Ready: len(p.ReadyClients)})
+			}
+			if len(p.Clients) == 0 {
+				return
 			}
 			break
-		case client := <-pool.Unregister:
-			delete(pool.Clients, client)
-			delete(pool.ReadyClients, client)
-			for clinet, _ := range pool.Clients {
-				clinet.Conn.WriteJSON(Message{Type: 1, Gamer: len(pool.Clients), Body: bbb, Ready: len(pool.ReadyClients)})
-			}
-			break
-		case message := <-pool.Broadcast:
-			for clinet, _ := range pool.Clients {
+		case message := <-p.Broadcast:
+			for clinet, _ := range p.Clients {
 				if err := clinet.Conn.WriteJSON(message); err != nil {
 					return
 				}
 			}
-		case ReadyClients := <-pool.Ready:
+		case ReadyClients := <-p.Ready:
 			if ReadyClients.Ready {
-				pool.ReadyClients[ReadyClients] = true
+				p.ReadyClients[ReadyClients] = true
 			} else {
-				delete(pool.ReadyClients, ReadyClients)
+				delete(p.ReadyClients, ReadyClients)
 			}
-			for clinet, _ := range pool.Clients {
-				clinet.Conn.WriteJSON(Message{Type: 1, Gamer: len(pool.Clients), Body: bbb, Ready: len(pool.ReadyClients)})
+			for clinet, _ := range p.Clients {
+				clinet.Conn.WriteJSON(Message{Type: 1, Gamer: len(p.Clients), Body: bbb, Ready: len(p.ReadyClients)})
 			}
 		}
 
@@ -107,7 +137,6 @@ func (pool *Pool) Start() {
 }
 
 func Convert(b *[]byte) []string {
-	var str []string
 	sp := strings.Split(string(*b), ",")
 	/*err := json.Unmarshal(*b, &str)
 
