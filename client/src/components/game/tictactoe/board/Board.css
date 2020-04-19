@@ -1,0 +1,14 @@
+.game-board{
+    padding: 0;
+    margin: 0;
+    padding: 100px;
+    background-color: wheat;
+    width: 300px;
+}
+
+.game-board div{
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+

@@ -1,0 +1,25 @@
+.game-items{
+    margin-top: 70px;
+    margin-left: 70px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.game-item {
+    text-align: center;
+    width: 180px;
+    padding: 5px;
+    border-radius: 15px;
+    box-shadow: 1px 1px 10px 1px black;
+    margin-right: 70px;
+}
+
+.game-item:hover{
+    box-shadow: 1px 1px 15px 2px black;
+}
+
+.game-item img{
+    padding: 5px;
+    border-radius: 20px;
+    width: 150px;
+}
