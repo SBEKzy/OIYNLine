@@ -101,6 +101,7 @@ func (p *Pool) Start() {
 				log.Print("-----------------------------------", len(p.Clients))
 				delete(freePools, p.Name)
 				for client, _ := range p.Clients {
+					log.Print("------------------test")
 					client.Conn.WriteJSON(Message{Type: 1, Gamer: len(p.Clients), Body: bbb, Ready: len(p.ReadyClients)})
 				}
 			}
