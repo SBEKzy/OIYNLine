@@ -13,7 +13,6 @@ export default class Game extends React.Component {
     
   }
   componentDidMount(){
-    console.log("didmutn");
     this.setState({squares: this.state.squares})
   }
 
@@ -23,7 +22,6 @@ export default class Game extends React.Component {
     console.log("BEKzy",p[0])
     this.setState({
       squares: p.body,
-     // xIsNext: !this.state.xIsNext,
     });
   }
   handleClick = (i) => {
