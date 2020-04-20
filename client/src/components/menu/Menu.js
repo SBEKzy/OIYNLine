@@ -25,9 +25,9 @@ render() {
             <Link to="/">Каталог игр</Link>
           </li>
           <li>
-            <Link to="/my-games">Мой игры</Link>
+            {this.context.Auth.isAuthenticated ? <Link to="/my-games">Мой игры</Link> : ""}            
           </li>
-          
+           
         </nav>
       </div>
     );

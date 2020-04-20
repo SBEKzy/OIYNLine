@@ -74,6 +74,14 @@ export default class App extends React.Component {
           },
         });
         return
+      default :
+      this.setState({
+        Auth: {
+          isAuthenticated: false,
+          user: null,
+        },
+      });
+      return
     }
   };
   
