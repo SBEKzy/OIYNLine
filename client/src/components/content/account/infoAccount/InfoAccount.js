@@ -13,7 +13,7 @@ export default class InfoAccount extends React.Component {
 
   componentDidMount() {
     const g = JSON.parse(this.props.context.Auth.user);
-    
+
     axios
       .get("http://localhost:8080/api/account/" + g.username)
       .then((response) => {
@@ -26,19 +26,20 @@ export default class InfoAccount extends React.Component {
   submitFrom = (e) => {
     e.preventDefault();
     if (this.state.change) {
-      console.log("send");     
-      const g = JSON.parse(this.props.context.Auth.user);    
+      console.log("send");
+      const g = JSON.parse(this.props.context.Auth.user);
       const data = {
-        username : e.target.elements[0].value, // todo: with name
-        email : e.target.elements[1].value,
-        id : g.id
-      }
-      axios.put("http://localhost:8080/api/account", data).then(response => {
-        console.log(response.data)
-        console.log(response.data.user)
+        username: e.target.elements[0].value, // todo: with name
+        email: e.target.elements[1].value,
+        password: e.target.elements[2].value,
+        id: g.id,
+      };
+      axios.put("http://localhost:8080/api/account", data).then((response) => {
+        console.log(response.data);
+        console.log(response.data.user);
         localStorage.setItem("user_data", JSON.stringify(response.data.user));
         this.props.context.setAuth("LOGIN");
-      })
+      });
     }
     this.setState({
       disabled: !this.state.disabled,
@@ -52,6 +53,14 @@ export default class InfoAccount extends React.Component {
       change: !this.state.change,
     });
   };
+
+  clickImg = () => {};
+
+  changeInput = (e) => {
+    console.log("e.target.value}", e.target.name);
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
   render() {
     return (
       <div className="info-account">
@@ -67,9 +76,16 @@ export default class InfoAccount extends React.Component {
                 type="text"
                 disabled={this.state.disabled ? "disabled" : ""}
                 defaultValue={this.state.username}
+                onChange={this.changeInput}
+                name="username"
               />
               <span>
-                <img src={done} alt="done" className="done-img" />
+                <img
+                  src={done}
+                  alt="done"
+                  className="done-img"
+                  onClick={this.clickImg}
+                />
               </span>
             </div>
           </div>
@@ -80,6 +96,8 @@ export default class InfoAccount extends React.Component {
                 type="text"
                 disabled={this.state.disabled ? "disabled" : ""}
                 defaultValue={this.state.email}
+                onChange={this.changeInput}
+                name="email"
               />
               <span>
                 <img src={done} alt="done" className="done-img" />
