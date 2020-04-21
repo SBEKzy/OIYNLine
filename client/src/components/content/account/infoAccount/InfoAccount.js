@@ -8,6 +8,8 @@ export default class InfoAccount extends React.Component {
     this.state = {
       disabled: true,
       change: false,
+      usernameExist: "",
+      emailExist: "",
     };
   }
 
@@ -35,8 +37,6 @@ export default class InfoAccount extends React.Component {
         id: g.id,
       };
       axios.put("http://localhost:8080/api/account", data).then((response) => {
-        console.log(response.data);
-        console.log(response.data.user);
         localStorage.setItem("user_data", JSON.stringify(response.data.user));
         this.props.context.setAuth("LOGIN");
       });
@@ -44,6 +44,8 @@ export default class InfoAccount extends React.Component {
     this.setState({
       disabled: !this.state.disabled,
       change: !this.state.change,
+      usernameExist: "",
+      emailExist: "",
     });
   };
 
@@ -54,7 +56,35 @@ export default class InfoAccount extends React.Component {
     });
   };
 
-  clickImg = () => {};
+  clickImg = (flag) => {
+    let data;
+    if (flag) {
+      data = {
+        username: this.state.username,
+        email: "",
+      };
+    } else {
+      data = {
+        email: this.state.email,
+        username: "",
+      };
+    }
+
+    axios
+      .post("http://localhost:8080/api/accountcheck", data)
+      .then((response) => {
+        console.log(response);
+        if (response.data.res === "EXIST") {
+          this.setState(
+            flag ? { usernameExist: "exist" } : { emailExist: "exist" }
+          );
+        } else if (response.data.res === "NOTEXIST") {
+          this.setState(
+            flag ? { usernameExist: "not" } : { emailExist: "not" }
+          );
+        }
+      });
+  };
 
   changeInput = (e) => {
     console.log("e.target.value}", e.target.name);
@@ -62,6 +92,21 @@ export default class InfoAccount extends React.Component {
   };
 
   render() {
+    let username = "";
+    if (this.state.usernameExist === "exist") {
+      username = (
+        <div style={{ color: "red" }}>Данный акканут зарегестрирован</div>
+      );
+    } else if (this.state.usernameExist === "not") {
+      username = <div style={{ color: "green" }}>Все хорошо</div>;
+    }
+
+    let email = "";
+    if (this.state.emailExist === "exist") {
+      email = <div style={{ color: "red" }}>Данный email зарегестрирован</div>;
+    } else if (this.state.emailExist === "not") {
+      email = <div style={{ color: "green" }}>Все хорошо</div>;
+    }
     return (
       <div className="info-account">
         <form
@@ -84,10 +129,11 @@ export default class InfoAccount extends React.Component {
                   src={done}
                   alt="done"
                   className="done-img"
-                  onClick={this.clickImg}
+                  onClick={() => this.clickImg(true)}
                 />
               </span>
             </div>
+            {username}
           </div>
           <div className="flex-dir-column">
             <label htmlFor="">Email:</label>
@@ -100,9 +146,15 @@ export default class InfoAccount extends React.Component {
                 name="email"
               />
               <span>
-                <img src={done} alt="done" className="done-img" />
+                <img
+                  src={done}
+                  alt="done"
+                  className="done-img"
+                  onClick={() => this.clickImg(false)}
+                />
               </span>
             </div>
+            {email}
           </div>
           <div className="flex-dir-column">
             <label htmlFor="">Password:</label>

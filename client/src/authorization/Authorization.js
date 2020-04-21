@@ -14,7 +14,7 @@ export function logout(setAuth) {
   setAuth("LOGOUT");
 }
 
-export const login = (reg, setAuth) => {
+export const login = (reg, setAuth, res) => {
   axios.post("http://localhost:8080/api/login", reg).then((response) => {
     console.log(response);
     console.log(response.data.response.token);
@@ -23,12 +23,14 @@ export const login = (reg, setAuth) => {
     setAuthorizationToken(response.data.response.token);
     //const { Auth, setAuth } = valueContext;
     setAuth("LOGIN");
+    res("ok");
     console.log("LOGIN SUCCess");
+  }).catch(error => {
+    res("ERROR")
   });
 };
 
 export const register = (reg, regResult) => {
-  let r;
   axios
     .post("http://localhost:8080/api/register", JSON.stringify(reg))
     .then((response) => {
@@ -43,6 +45,4 @@ export const register = (reg, regResult) => {
         regResult("ERROR");
       }
     });
-
-  return r;
 };
