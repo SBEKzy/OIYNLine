@@ -17,12 +17,7 @@ export default class Account extends React.Component {
   };
   redirectFunc = () => {
     if (this.state.redirect) return <Redirect to="/" />;
-  };
-  /*
-  {this.redirectFunc()}
-  <button onClick={this.lout}>logout</button>*/
-
-  
+  }; 
   
 
   render() {
