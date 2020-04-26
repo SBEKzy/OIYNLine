@@ -27,7 +27,9 @@ render() {
           <li>
             {this.context.Auth.isAuthenticated ? <Link to="/my-games">Мой игры</Link> : ""}            
           </li>
-           
+          <li>
+            {this.context.Auth.isAuthenticated ? <Link to="/chat">Сообщество</Link> : ""}            
+          </li>
         </nav>
       </div>
     );
