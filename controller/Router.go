@@ -10,6 +10,7 @@ func (s *Server) initializeRoutes() {
 		api.GET("/account/:username", TokenAuthMiddleware(), s.AccountGet)
 		api.PUT("/account", TokenAuthMiddleware(), s.AccountPut)
 		api.POST("/accountcheck", TokenAuthMiddleware(), s.AccountCheck)
+		api.GET("/mainchat", s.MainChat)
 		api.GET("/ws", s.serveWs)
 	}
 }
