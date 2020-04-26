@@ -19,6 +19,7 @@ export default class Chat extends React.Component {
     document.getElementById("inputMessage").value = "";
   };
   render() {
+    
     return (
       <div>
         <div className="main-chat">
@@ -26,7 +27,7 @@ export default class Chat extends React.Component {
             <div className="messages">
               {this.props.messages.map((m, i) =>
                 m.name !== "" && m.text !== "" ? (
-                  <div className="message" key={i}>
+                  <div className="message" key={i} >
                     <div className="name">{m.name}</div>
                     <div className="text">{m.text}</div>
                   </div>
