@@ -24,7 +24,7 @@ export default class Login extends React.Component {
 
   registerSubmit = (e) => {
     e.preventDefault();
-    if (this.state.password != this.state.password2) {
+    if (this.state.password !== this.state.password2) {
       this.setState({
         passwordError: "Пароль не совпадают",
         regSuccess: false,
@@ -74,7 +74,7 @@ export default class Login extends React.Component {
   };
 
   logResult = (res) => {
-    if (res == "ERROR") {
+    if (res === "ERROR") {
       this.setState({ logError: "неверный логин или пароль" });
     } else {
       this.setState({ logError: "" });

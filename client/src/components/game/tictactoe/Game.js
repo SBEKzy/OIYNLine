@@ -27,6 +27,7 @@ export default class Game extends React.Component {
   handleClick = (i) => {
     let square = this.state.squares;
     if (calculateWinner(square) || square[i]) {
+      
       return;
     }
     square[i] = this.state.xIsNext ? "X" : "O";
