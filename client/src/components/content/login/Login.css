@@ -1,0 +1,47 @@
+.login-forms{
+    display: flex;
+    justify-content: center;
+    margin-top: 120px;
+}
+
+.login-forms input {
+    padding: 10px;
+    border-radius: 5px;    
+    margin-top: 15px;    
+}
+
+.login-forms input[type="text"], .login-forms input[type="password"], .login-forms input[type="email"]{
+    width: 250px;
+    border: 1px solid lightblue;
+}
+
+.login-forms input[type="submit"]{
+    background-color: lightblue;
+    font-size: 18px;
+}
+
+.login-form, .register-form{
+    display: flex;
+    flex-direction: column;
+}
+
+.login-form{
+    margin-right: 55px;
+}
+
+.register-form{
+    padding-left: 55px;
+    border-left: 1px solid lightblue;
+}
+
+.success{
+    color: green;
+    font-size: 21px;
+
+}
+
+.error{
+    color: red;
+    font-size: 21px;
+    
+}
