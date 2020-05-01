@@ -1,7 +1,8 @@
 import React from "react";
 import "./Game.css";
 import Board from "./board/Board";
-import {  sendMsg,socket } from "../../content/webscoket/Socket";
+import { sendMsg, socket } from "../../content/webscoket/Socket";
+import axios from "axios";
 export default class Game extends React.Component {
   constructor(props) {
     super(props);
@@ -9,34 +10,51 @@ export default class Game extends React.Component {
       squares: Array(9).fill(null),
       xIsNext: this.props.location.state.x,
     };
-    socket.onmessage = this.ch
-    
+    socket.onmessage = this.ch;
   }
-  componentDidMount(){
-    this.setState({squares: this.state.squares})
+  componentDidMount() {
+    this.setState({ squares: this.state.squares });
   }
 
   ch = (msg) => {
-    const p = JSON.parse(msg.data)
-    console.log("BEKzy",p)
-    console.log("BEKzy",p[0])
+    const p = JSON.parse(msg.data);
+    console.log("BEKzy", p);
+    console.log("BEKzy", p[0]);
     this.setState({
       squares: p.body,
     });
-  }
+  };
   handleClick = (i) => {
     let square = this.state.squares;
     if (calculateWinner(square) || square[i]) {
-      
+      console.log("+++++++++++++", this.state.xIsNext);
+      console.log("+++++++++++++", square[i]);
+      console.log("+++++++++++++", calculateWinner(square));
       return;
     }
     square[i] = this.state.xIsNext ? "X" : "O";
-    sendMsg(square)
+    sendMsg(square);
   };
   render() {
     const winner = calculateWinner(this.state.squares);
     let status;
-    
+    if (winner) {
+      const data = {
+        result : "",
+        gamer : localStorage.getItem("token"),
+        game : 1,
+      }
+      console.log("+++++++++++++++++++")
+      console.log(winner)
+      console.log(this.state.xIsNext)
+      if (this.state.xIsNext  && winner === "X") {
+        data.result = "win";
+        axios.post('http://localhost:8080/api/resultgame',data)
+      } else {
+        data.result = "lose";
+        axios.post('http://localhost:8080/api/resultgame',data)
+      }
+    }
 
     status = "" + (this.state.xIsNext ? "X" : "O");
 
