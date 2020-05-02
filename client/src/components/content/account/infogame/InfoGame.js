@@ -1,6 +1,6 @@
-import React, { PureComponent } from "react";
+import React from "react";
 import "./InfoGame.css";
-import { ResponsiveContainer, PieChart, Pie, Legend } from "recharts";
+import { ResponsiveContainer, PieChart, Pie } from "recharts";
 
 export default class InfoGame extends React.Component {
   static jsfiddleUrl = "//jsfiddle.net/alidingling/6okmehja/";
