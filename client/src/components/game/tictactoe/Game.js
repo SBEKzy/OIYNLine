@@ -15,11 +15,12 @@ export default class Game extends React.Component {
   componentDidMount() {
     this.setState({ squares: this.state.squares });
   }
-
+  game = {
+    flag: false,
+  };
   ch = (msg) => {
     const p = JSON.parse(msg.data);
-    console.log("BEKzy", p);
-    console.log("BEKzy", p[0]);
+    
     this.setState({
       squares: p.body,
     });
@@ -27,35 +28,36 @@ export default class Game extends React.Component {
   handleClick = (i) => {
     let square = this.state.squares;
     if (calculateWinner(square) || square[i]) {
-      console.log("+++++++++++++", this.state.xIsNext);
-      console.log("+++++++++++++", square[i]);
-      console.log("+++++++++++++", calculateWinner(square));
       return;
     }
     square[i] = this.state.xIsNext ? "X" : "O";
     sendMsg(square);
+    
+  };
+
+  gameover = () => {
+    this.game.flag = true;
+    const data = {
+      result: "",
+      gamer: parseInt(JSON.parse(localStorage.getItem("user_data")).id),
+      game: 1,
+    };
+    console.log("++++++++++++++")
+    console.log(data)
+    if (this.state.xIsNext && calculateWinner(this.state.squares) === "X") {
+      data.result = "win";
+      axios.post("http://localhost:8080/api/resultgame", data);
+    } else {
+      data.result = "lose";
+      axios.post("http://localhost:8080/api/resultgame", data);
+    }
   };
   render() {
     const winner = calculateWinner(this.state.squares);
     let status;
-    if (winner) {
-      const data = {
-        result : "",
-        gamer : localStorage.getItem("token"),
-        game : 1,
-      }
-      console.log("+++++++++++++++++++")
-      console.log(winner)
-      console.log(this.state.xIsNext)
-      if (this.state.xIsNext  && winner === "X") {
-        data.result = "win";
-        axios.post('http://localhost:8080/api/resultgame',data)
-      } else {
-        data.result = "lose";
-        axios.post('http://localhost:8080/api/resultgame',data)
-      }
+    if (calculateWinner(this.state.squares) && !this.game.flag) {
+      this.gameover();
     }
-
     status = "" + (this.state.xIsNext ? "X" : "O");
 
     return (
