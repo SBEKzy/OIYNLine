@@ -30,8 +30,6 @@ func (s *Server) ResultGame(c *gin.Context) {
 	} else {
 		result.Win = 2
 	}
-	fmt.Println("***************")
-	fmt.Println(data)
 	if err := s.DB.Debug().Create(&result).Error; err != nil {
 		fmt.Println(err)
 		c.JSON(http.StatusInternalServerError, gin.H{"err": "InternalServerError"})

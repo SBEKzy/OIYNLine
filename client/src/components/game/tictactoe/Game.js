@@ -20,7 +20,7 @@ export default class Game extends React.Component {
   };
   ch = (msg) => {
     const p = JSON.parse(msg.data);
-    
+
     this.setState({
       squares: p.body,
     });
@@ -32,7 +32,6 @@ export default class Game extends React.Component {
     }
     square[i] = this.state.xIsNext ? "X" : "O";
     sendMsg(square);
-    
   };
 
   gameover = () => {
@@ -42,8 +41,7 @@ export default class Game extends React.Component {
       gamer: parseInt(JSON.parse(localStorage.getItem("user_data")).id),
       game: 1,
     };
-    console.log("++++++++++++++")
-    console.log(data)
+
     if (this.state.xIsNext && calculateWinner(this.state.squares) === "X") {
       data.result = "win";
       axios.post("http://localhost:8080/api/resultgame", data);
