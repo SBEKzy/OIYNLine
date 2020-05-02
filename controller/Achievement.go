@@ -50,12 +50,10 @@ func getAchievements(histories []model.History, s *Server) achievement {
 	amoutwin := 0
 	amoutlose := 0
 	for _, v := range histories {
-
 		if _, e := gameAchievements[v.GameID]; !e {
 			var game model.Game
 			s.DB.Model(model.Game{}).Where("id = ?", v.GameID).Take(&game)
 			gameAchievements[v.GameID] = &gameAchievement{Name: game.Name}
-
 		}
 		gameAchievement := gameAchievements[v.GameID]
 		if v.Win == 1 {
@@ -76,6 +74,12 @@ func getAchievements(histories []model.History, s *Server) achievement {
 	}
 	achievements.AmountWin = amoutwin
 	achievements.AmountLose = amoutlose
+	if achievements.AmountWin > achievements.AmountLose {
+		achievements.LevelUser = achievements.AmountWin / 5
+		if achievements.AmountLose > 5 {
+			achievements.LevelUser = achievements.LevelUser - achievements.AmountLose/5
+		}
+	}
 	achievements.Game = gameAchievements
 	return achievements
 }
