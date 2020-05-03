@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	security "github.com/OIYNLine/controller/security"
 	models "github.com/OIYNLine/model"
 	"github.com/gin-gonic/gin"
 )
@@ -36,6 +37,17 @@ func (s *Server) AccountPut(c *gin.Context) {
 		})
 		return
 	}
+	if user.Password != "" {
+		hashPass, errr := security.Hash(user.Password)
+		if errr != nil {
+			c.JSON(http.StatusUnprocessableEntity, gin.H{
+				"status":      http.StatusUnprocessableEntity,
+				"first error": "Error to hash password",
+			})
+			return
+		}
+		user.Password = string(hashPass)
+	}
 	fmt.Println(user)
 	if err := s.DB.Debug().Model(&user).Updates(user).Error; err != nil {
 		fmt.Println(err)
@@ -52,4 +64,39 @@ func (s *Server) AccountPut(c *gin.Context) {
 		"status": http.StatusOK,
 		"user":   userData,
 	})
+}
+
+type AccountCheckk struct {
+	Username string `json:"username"`
+	Email    string `json:"email"`
+}
+
+func (s *Server) AccountCheck(c *gin.Context) {
+	var check AccountCheckk
+	if err := c.BindJSON(&check); err != nil {
+		fmt.Println(err)
+		c.JSON(http.StatusUnprocessableEntity, gin.H{
+			"status": http.StatusUnprocessableEntity,
+			"error":  "can not unmarshal",
+		})
+	}
+	var data models.User
+	if check.Username != "" {
+		s.DB.Debug().Where("username = ?", check.Username).Attrs(models.User{Username: ""}).FirstOrInit(&data)
+	} else {
+		s.DB.Debug().Where("email = ?", check.Email).Attrs(models.User{Email: ""}).FirstOrInit(&data)
+	}
+	if data.ID == 0 {
+		c.JSON(http.StatusOK, gin.H{
+			"status": http.StatusOK,
+			"res":    "NOTEXIST",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status": http.StatusOK,
+		"res":    "EXIST",
+	})
+
 }

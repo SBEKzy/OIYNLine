@@ -1,0 +1,13 @@
+.main-mainchat{
+    display: flex;
+
+}
+
+
+.chat-status-user{
+    font-size: 25px;
+    background-color: cadetblue;
+    width: 200px;
+    padding: 10px;
+    margin: 10px;
+}

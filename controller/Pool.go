@@ -64,6 +64,7 @@ func (p *Pool) Start() {
 
 		case message := <-p.Broadcast:
 			for clinet, _ := range p.Clients {
+
 				if err := clinet.Conn.WriteJSON(message); err != nil {
 					return
 				}

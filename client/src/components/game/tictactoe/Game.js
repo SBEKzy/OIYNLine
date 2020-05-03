@@ -1,7 +1,8 @@
 import React from "react";
 import "./Game.css";
 import Board from "./board/Board";
-import {  sendMsg,socket } from "../../content/webscoket/Socket";
+import { sendMsg, socket } from "../../content/webscoket/Socket";
+import axios from "axios";
 export default class Game extends React.Component {
   constructor(props) {
     super(props);
@@ -9,34 +10,52 @@ export default class Game extends React.Component {
       squares: Array(9).fill(null),
       xIsNext: this.props.location.state.x,
     };
-    socket.onmessage = this.ch
-    
+    socket.onmessage = this.ch;
   }
-  componentDidMount(){
-    this.setState({squares: this.state.squares})
+  componentDidMount() {
+    this.setState({ squares: this.state.squares });
   }
-
+  game = {
+    flag: false,
+  };
   ch = (msg) => {
-    const p = JSON.parse(msg.data)
-    console.log("BEKzy",p)
-    console.log("BEKzy",p[0])
+    const p = JSON.parse(msg.data);
+
     this.setState({
       squares: p.body,
     });
-  }
+  };
   handleClick = (i) => {
     let square = this.state.squares;
     if (calculateWinner(square) || square[i]) {
       return;
     }
     square[i] = this.state.xIsNext ? "X" : "O";
-    sendMsg(square)
+    sendMsg(square);
+  };
+
+  gameover = () => {
+    this.game.flag = true;
+    const data = {
+      result: "",
+      gamer: parseInt(JSON.parse(localStorage.getItem("user_data")).id),
+      game: 1,
+    };
+
+    if (this.state.xIsNext && calculateWinner(this.state.squares) === "X") {
+      data.result = "win";
+      axios.post("http://localhost:8080/api/resultgame", data);
+    } else {
+      data.result = "lose";
+      axios.post("http://localhost:8080/api/resultgame", data);
+    }
   };
   render() {
     const winner = calculateWinner(this.state.squares);
     let status;
-    
-
+    if (calculateWinner(this.state.squares) && !this.game.flag) {
+      this.gameover();
+    }
     status = "" + (this.state.xIsNext ? "X" : "O");
 
     return (

@@ -4,7 +4,6 @@ import { MyContext } from "../../../context/MyContext";
 import { logout } from "../../../authorization/Authorization";
 import { Redirect } from "react-router";
 import InfoAccount from "./infoAccount/InfoAccount"
-import InfoGame from "./infogame/InfoGame"
 export default class Account extends React.Component {
   state = {
     redirect: false,    
@@ -17,12 +16,7 @@ export default class Account extends React.Component {
   };
   redirectFunc = () => {
     if (this.state.redirect) return <Redirect to="/" />;
-  };
-  /*
-  {this.redirectFunc()}
-  <button onClick={this.lout}>logout</button>*/
-
-  
+  }; 
   
 
   render() {
@@ -31,7 +25,6 @@ export default class Account extends React.Component {
         <div className="info">
         {this.redirectFunc()}
           <InfoAccount lout={this.lout} context={this.context}/>
-          <InfoGame />
         </div>
       </div>
     );

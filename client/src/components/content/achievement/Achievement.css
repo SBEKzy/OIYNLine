@@ -1,0 +1,46 @@
+.achievement-content{
+    padding: 20px;
+}
+
+.achievement-content-item{
+    margin:20px;
+}
+
+.achievement-content-item-header{
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.achievement-content-item-body{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-top: 70px;
+}
+
+.achievement-content-item-body-des{
+    display: flex;
+    flex-direction: column;
+}
+
+.achievement-content-item-body-des span{
+    font-size: 19px;
+    padding: 10px;
+}
+
+.achievement-content-item-table{
+    border: 1px solid black;
+    text-align: center;
+    margin: 30px 50px;
+}
+
+.achievement-content-item-table td{
+    border: 1px solid brown;
+    padding: 10px;
+}
+
+.achievement-content-center{
+    display: flex;
+    flex-direction: column;
+}
