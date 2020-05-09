@@ -1,8 +1,10 @@
 .Menu{
     width: 300px;
-    background-color: turquoise;
+    background-color:  turquoise ;
+    
     height: 100%;
-    position: absolute;
+    position: fixed;
+   
 }
 
 .Menu h1 {

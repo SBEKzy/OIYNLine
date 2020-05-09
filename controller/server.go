@@ -24,6 +24,9 @@ func (server *Server) Initialize() {
 
 	server.DB.Debug().AutoMigrate(
 		&models.User{},
+		&models.History{},
+		&models.MyGames{},
+		&models.Game{},
 	)
 	server.Router = gin.Default()
 	server.Router.Use(CORSMiddleware())

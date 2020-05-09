@@ -5,7 +5,6 @@ import { login } from "../../../authorization/Authorization";
 import { register } from "../../../authorization/Authorization";
 import { MyContext } from "../../../context/MyContext";
 import { Redirect } from "react-router";
-//import { useSelector, useDispatch } from "react-redux";
 export default class Login extends React.Component {
   constructor() {
     super();
@@ -13,19 +12,32 @@ export default class Login extends React.Component {
       redirect: false,
       regSuccess: null,
       regError: null,
+      email: "",
+      password: "",
+      password2: "",
+      username: "",
+      passwordError: "",
+      logError: "",
     };
   }
   static contextType = MyContext;
 
   registerSubmit = (e) => {
     e.preventDefault();
-    let email = e.target.elements["email"].value;
-    let pass = e.target.elements["password"].value;
-    let username = e.target.elements["username"].value;
+    if (this.state.password !== this.state.password2) {
+      this.setState({
+        passwordError: "Пароль не совпадают",
+        regSuccess: false,
+        regError: false,
+      });
+      return;
+    } else {
+      this.setState({ passwordError: "" });
+    }
     let reg = {
-      email: email,
-      password: pass,
-      username: username,
+      email: this.state.email,
+      password: this.state.password,
+      username: this.state.username,
     };
     register(reg, this.regResult);
   };
@@ -36,6 +48,11 @@ export default class Login extends React.Component {
         this.setState({
           regSuccess: "регистрация прошла успешно",
           regError: null,
+          email: "",
+          password: "",
+          password2: "",
+          username: "",
+          passwordError: "",
         });
         return;
       case "ERROR":
@@ -43,14 +60,25 @@ export default class Login extends React.Component {
         this.setState({
           regError: "email или username существует",
           regSuccess: null,
+          passwordError: "",
         });
         return;
-       default:
+      default:
         this.setState({
           regError: "Error",
           regSuccess: null,
+          passwordError: "",
         });
         return;
+    }
+  };
+
+  logResult = (res) => {
+    if (res === "ERROR") {
+      this.setState({ logError: "неверный логин или пароль" });
+    } else {
+      this.setState({ logError: "" });
+      this.setState({ redirect: true });
     }
   };
   loginSubmit = (e) => {
@@ -61,14 +89,17 @@ export default class Login extends React.Component {
       email: email,
       password: pass,
     };
-    login(reg, this.context.setAuth);
-    this.setState({ redirect: true });
+    login(reg, this.context.setAuth, this.logResult);    
   };
 
   Red = () => {
     if (this.state.redirect) {
       return <Redirect to="/" />;
     }
+  };
+
+  changeInput = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
   };
 
   render() {
@@ -82,9 +113,10 @@ export default class Login extends React.Component {
             onSubmit={this.loginSubmit}
           >
             <h2>Войти</h2>
-            <input type="text" name="email" placeholder="email" />
+            <input type="email" name="email" placeholder="email" />
             <input type="password" name="password" placeholder="Пароль" />
             <input type="submit" />
+            {this.state.logError ? <p style={{color:"red"}}>{this.state.logError}</p> : ""}
           </form>
 
           <form
@@ -93,10 +125,30 @@ export default class Login extends React.Component {
             onSubmit={this.registerSubmit}
           >
             <h2>Регистрация</h2>
-            <input type="text" name="email" placeholder="Email" />
-            <input type="text" name="username" placeholder="Никнейм" />
-            <input type="password" name="password" placeholder="Пароль" />
-            <input type="password" placeholder="Подверждение пароля" />
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              onChange={this.changeInput}
+            />
+            <input
+              type="text"
+              name="username"
+              placeholder="Никнейм"
+              onChange={this.changeInput}
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Пароль"
+              onChange={this.changeInput}
+            />
+            <input
+              type="password"
+              name="password2"
+              placeholder="Подверждение пароля"
+              onChange={this.changeInput}
+            />
             {this.state.regSuccess ? (
               <p className="success">{this.state.regSuccess}</p>
             ) : (
@@ -107,7 +159,11 @@ export default class Login extends React.Component {
             ) : (
               ""
             )}
-
+            {this.state.passwordError ? (
+              <p className="error">{this.state.passwordError}</p>
+            ) : (
+              ""
+            )}
             <input type="submit" />
           </form>
         </div>
