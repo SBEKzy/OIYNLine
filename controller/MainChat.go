@@ -43,34 +43,55 @@ type PoolMainChat struct {
 	Name       string
 	Register   chan *ClientMainChat
 	Unregister chan *ClientMainChat
-	Clients    map[*ClientMainChat]bool
-	Broadcast  chan MsgMainChat
+	Clients    map[*ClientMainChat]string
+	Broadcast  chan BroadcastMsg
+}
+
+type BroadcastMsg struct {
+	Client *ClientMainChat
+	Msg    *MsgMainChat
 }
 
 type MsgMainChat struct {
-	Name     string `json:"name"`
-	Text     string `json:"text"`
-	Register int    `json:"register"`
+	Name     string   `json:"name"`
+	Text     string   `json:"text"`
+	Register int      `json:"register"`
+	Clients  []string `json:"clients"`
 }
 
 func (c *ClientMainChat) PoolMainChatRead() {
 	defer func() {
 		c.Pool.Unregister <- c
 		c.Conn.Close()
+
 	}()
+	BroadcastMsg := BroadcastMsg{Client: c}
 	for {
 		_, p, err := c.Conn.ReadMessage()
 		if err != nil {
 			log.Println(err)
 			return
 		}
-		var body MsgMainChat
+		var body *MsgMainChat
 		err = json.Unmarshal(p, &body)
 		if err != nil {
 			fmt.Println("unmarshal -- ", err)
 			return
 		}
-		c.Pool.Broadcast <- body
+		// if body.Register == 1 {
+		// 	clients = append(clients, body.Name)
+		// 	body.Clients = clients
+		// } else if body.Register == 2 {
+		// 	for i, v := range clients {
+		// 		if v == body.Name {
+		// 			clients = append(clients[i:], clients[:(i+1)]...)
+		// 			body.Clients = clients
+		// 		}
+		// 	}
+		// }
+		fmt.Println(body)
+		BroadcastMsg.Msg = body
+		c.Pool.Broadcast <- BroadcastMsg
 	}
 }
 
@@ -78,27 +99,36 @@ func (p *PoolMainChat) Start() {
 	defer func() {
 		log.Print("PoolMainChat closed:", p.Name)
 	}()
-
 	for {
 		select {
 		case client := <-p.Register:
 			fmt.Println("Mainchatregister ", client)
-			p.Clients[client] = true
+			p.Clients[client] = "true"
 
 			for client, _ := range p.Clients {
-				client.Conn.WriteJSON("rtyuio")
+				client.Conn.WriteJSON("sdf")
 			}
 
 		case client := <-p.Unregister:
 			delete(p.Clients, client)
+			message := MsgMainChat{Register: 2, Clients: p.onlineClients()}
 			for clinet, _ := range p.Clients {
-				clinet.Conn.WriteJSON("fdgfgdfgf")
+				clinet.Conn.WriteJSON(message)
 			}
 
-		case message := <-p.Broadcast:
+		case BroadcastMsg := <-p.Broadcast:
+			fmt.Println("message := <-p.Broadcast: ", BroadcastMsg)
+			if BroadcastMsg.Msg.Register == 1 && p.Clients[BroadcastMsg.Client] == "true" {
+				p.Clients[BroadcastMsg.Client] = BroadcastMsg.Msg.Name
 
+				BroadcastMsg.Msg.Clients = p.onlineClients()
+				fmt.Print("client ")
+				fmt.Print(BroadcastMsg.Client)
+				fmt.Print(" , ")
+				fmt.Println(p.onlineClients())
+			}
 			for clinet, _ := range p.Clients {
-				if err := clinet.Conn.WriteJSON(message); err != nil {
+				if err := clinet.Conn.WriteJSON(BroadcastMsg.Msg); err != nil {
 					return
 				}
 			}
@@ -113,9 +143,17 @@ func NewPoolMainChat() *PoolMainChat {
 		Name:       name,
 		Register:   make(chan *ClientMainChat),
 		Unregister: make(chan *ClientMainChat),
-		Clients:    make(map[*ClientMainChat]bool),
-		Broadcast:  make(chan MsgMainChat),
+		Clients:    make(map[*ClientMainChat]string),
+		Broadcast:  make(chan BroadcastMsg),
 	}
 
 	return pool
+}
+
+func (p *PoolMainChat) onlineClients() []string {
+	clients := make([]string, 0)
+	for _, v := range p.Clients {
+		clients = append(clients, v)
+	}
+	return clients
 }

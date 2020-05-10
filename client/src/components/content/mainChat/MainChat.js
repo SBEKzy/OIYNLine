@@ -8,26 +8,31 @@ export default class MainChat extends React.Component {
     this.state = {
       messages: [],
       usersOnline: [],
+      socket : null,
     };
   }
 
   componentDidMount() {
     const u = JSON.parse(localStorage.getItem("user_data"));
     this.setState({ username: u.username });
-    this.send = websocket(this.getMessages);
+    this.socket = websocket(this.getMessages);
+    console.log("ssss" , this.socket)
   }
-
+componentWillUnmount(){
+this.socket.socket.close() 
+}
   getMessages = (msg) => {
-    console.log("1231231321", JSON.parse(msg.data));
+    console.log("getMessages", JSON.parse(msg.data));
     const u = JSON.parse(msg.data);
-    if (u.register === 1) {
+    if (u.register === 1 || u.register === 2) {
       this.setState({
-        usersOnline: [...this.state.usersOnline, u.name],
+        usersOnline: [ ...u.clients],
+        //usersOnline: [...this.state.usersOnline, u.name],
       });
-    } else if(u.name !== "" && u.text !== "" && typeof(u.text) === "string") {
+      console.log("usersOnline", this.state.usersOnline);
+    } else if (u.name !== "" && u.text !== "" && typeof u.text === "string") {
       console.log("132");
-      console.log(u.name);
-      console.log(u.text);
+
       this.setState({
         messages: [...this.state.messages, JSON.parse(msg.data)],
       });
@@ -38,7 +43,7 @@ export default class MainChat extends React.Component {
     return (
       <div className="main-mainchat">
         <Chat
-          send={(msg) => this.send(msg)}
+          send={(msg) => this.socket.sendMsg(msg)}
           messages={this.state.messages}
           user={this.state.username}
         />

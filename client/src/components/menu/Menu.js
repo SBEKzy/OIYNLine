@@ -47,6 +47,11 @@ export default class Menu extends React.Component {
               ""
             )}
           </li>
+          <li>
+           
+              <Link to="/video">video</Link>
+           
+          </li>
         </nav>
       </div>
     );
