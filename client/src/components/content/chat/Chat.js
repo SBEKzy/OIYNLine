@@ -10,7 +10,7 @@ export default class Chat extends React.Component {
   // }
   btnClick = () => {
     const c = document.getElementById("inputMessage").value;
-    console.log("----", this.props.user);
+    console.log("btnClick", this.props.user);
     const data = {
       name: this.props.user,
       text: c,
