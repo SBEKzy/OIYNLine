@@ -18,7 +18,7 @@ export default class Achievement extends React.Component {
       .then((response) => {
         const a = response.data.data;
         console.log(a);
-        const f = a.Game
+        const f = a.Game;
         console.log(f);
         this.setState({
           amount: a.Amount,
@@ -27,7 +27,6 @@ export default class Achievement extends React.Component {
           game: Object.values(f),
           levelUser: a.LevelUser,
         });
-        
       });
   }
   render() {
@@ -73,27 +72,28 @@ export default class Achievement extends React.Component {
                   <td>Кол-во поражений</td>
                   <td>Уровень</td>
                 </tr>
-                
-                
-                {this.state.game != null ? this.state.game.map((v,i) => (
-                <tr key={i}>
-                  <td>{i+1}</td>
-                  <td>{v.Name}</td>
-                  <td>{v.Amount}</td>
-                  <td>{v.AmountWin}</td>
-                  <td>{v.AmountLose}</td>
-                  <td>{v.LevelGame}</td>
-                </tr>
-                )) : 
-                <tr >
-                  <td>1</td>
-                  <td>-</td>
-                  <td>-</td>
-                  <td>-</td>
-                  <td>-</td>
-                  <td>-</td>
-                </tr>}
-                
+
+                {this.state.game != null ? (
+                  this.state.game.map((v, i) => (
+                    <tr key={i}>
+                      <td>{i + 1}</td>
+                      <td>{v.Name}</td>
+                      <td>{v.Amount}</td>
+                      <td>{v.AmountWin}</td>
+                      <td>{v.AmountLose}</td>
+                      <td>{v.LevelGame}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td>1</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

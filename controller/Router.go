@@ -6,7 +6,11 @@ func (s *Server) initializeRoutes() {
 	{
 		api.POST("/login", s.Login)
 		api.POST("/register", s.Register)
-		api.GET("/my-games", TokenAuthMiddleware(), s.MyGames)
+		api.GET("/catalog", s.Catalog)
+		api.GET("/my-games/:user", TokenAuthMiddleware(), s.MyGames)
+		api.POST("/my-games", TokenAuthMiddleware(), s.MyGamesAdd)
+		api.DELETE("/my-games/:gId/:user", TokenAuthMiddleware(), s.MyGamesDel)
+		api.POST("/ismygames", TokenAuthMiddleware(), s.MyGamesCheck)
 		api.GET("/account/:username", TokenAuthMiddleware(), s.AccountGet)
 		api.PUT("/account", TokenAuthMiddleware(), s.AccountPut)
 		api.POST("/accountcheck", TokenAuthMiddleware(), s.AccountCheck)
