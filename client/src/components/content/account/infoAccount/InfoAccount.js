@@ -10,6 +10,8 @@ export default class InfoAccount extends React.Component {
       change: false,
       usernameExist: "",
       emailExist: "",
+      save1: false,
+      save2: false,
     };
   }
 
@@ -22,7 +24,6 @@ export default class InfoAccount extends React.Component {
         const user = response.data.user;
         this.setState({ username: user.username, email: user.email });
       });
-    /*console.log(this.context.Auth.users)*/
   }
 
   submitFrom = (e) => {
@@ -76,18 +77,21 @@ export default class InfoAccount extends React.Component {
         console.log(response);
         if (response.data.res === "EXIST") {
           this.setState(
-            flag ? { usernameExist: "exist" } : { emailExist: "exist" }
+            flag
+              ? { usernameExist: "exist", save1: false }
+              : { emailExist: "exist", save2: false }
           );
         } else if (response.data.res === "NOTEXIST") {
           this.setState(
-            flag ? { usernameExist: "not" } : { emailExist: "not" }
+            flag
+              ? { usernameExist: "not", save1: true }
+              : { emailExist: "not", save2: true }
           );
         }
       });
   };
 
   changeInput = (e) => {
-    console.log("e.target.value}", e.target.name);
     this.setState({ [e.target.name]: e.target.value });
   };
 
@@ -167,6 +171,14 @@ export default class InfoAccount extends React.Component {
             <input
               type="submit"
               value={!this.state.change ? "Изменить" : "Сохранить"}
+              disabled={
+                this.state.change
+                  ? this.state.save1 && this.state.save2
+                    ? ""
+                    : "disabled"
+                  : ""
+              }
+              
             />
             {this.state.change ? (
               <input type="button" value="Отмена" onClick={this.cancelButton} />

@@ -30,6 +30,7 @@ func NewPool() *Pool {
 		Ready:        make(chan *Client),
 	}
 	freePools[name] = pool
+	log.Printf("Pool %s created", pool.Name)
 	return pool
 }
 
@@ -43,6 +44,7 @@ func (p *Pool) Start() {
 		select {
 		case client := <-p.Register:
 			p.Clients[client] = true
+			log.Printf("Client %d has joined to pool:%s", len(p.Clients), p.Name)
 			if len(p.Clients) == 2 {
 				delete(freePools, p.Name)
 				for client, _ := range p.Clients {

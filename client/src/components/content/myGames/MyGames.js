@@ -1,17 +1,37 @@
 import React from "react";
 import "./MyGames.css";
-import axios from 'axios'
+import axios from "axios";
+import { MyContext } from "../../../context/MyContext";
+import Game from "../game/Game";
 export default class MyGames extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      myGames: [],
+    };
+  }
+
+  componentDidMount(){
+    axios.get("http://localhost:8080/api/my-games/" + JSON.parse(this.context.Auth.user).id).then((response) => {
+
+      this.setState({ myGames: Object.values(response.data.data) });
+    });
+  }
+  static contextType = MyContext;
   render() {
-    const bbb = () => {
-        axios.get("http://localhost:8080/api/my-games").then(response =>
-            console.log(response)
-        )
-    }
     return (
       <div className="myGames">
-        <h1>My games</h1>
-        <button onClick={bbb}> ok</button>
+        <div className="game-items">
+          {this.state.myGames.map((v, i) => (
+            <Game
+              auth={this.context.Auth.isAuthenticated}
+              name={v}
+              key={i}
+              gameId={i}
+              userId={this.context.Auth.user}
+            />
+          ))}
+        </div>
       </div>
     );
   }

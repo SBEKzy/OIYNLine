@@ -4,6 +4,7 @@
     height: 500px;
     display: flex;
     flex-direction: column;
+    
   }
   
   .chat-show {
@@ -11,6 +12,8 @@
     width: 100%;
     border: 1px solid cadetblue;
     position: relative;
+    overflow: auto;
+   
   }
   
   .chat-send {
@@ -34,6 +37,7 @@
   .messages {
     position: absolute;
     bottom: 0;
+    
   }
   
   .message {

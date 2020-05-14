@@ -1,0 +1,6 @@
+video {
+    max-width: 100%;
+    width: 320px;
+    z-index: 1000;
+    margin-left: 400px;
+  }
