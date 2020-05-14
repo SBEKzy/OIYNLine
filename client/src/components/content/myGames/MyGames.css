@@ -1,0 +1,7 @@
+.game-items {
+    margin-top: 70px;
+    margin-left: 70px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
