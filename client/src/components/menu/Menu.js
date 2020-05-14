@@ -27,7 +27,8 @@ export default class Menu extends React.Component {
             <Link to="/">Каталог игр</Link>
           </li>
           <li>
-            {this.context.Auth.isAuthenticated ? (
+            {this.context.Auth.isAuthenticated &&
+            JSON.parse(this.context.Auth.user).role == "user" ? (
               <Link to="/my-games">Мой игры</Link>
             ) : (
               ""
@@ -41,16 +42,23 @@ export default class Menu extends React.Component {
             )}
           </li>
           <li>
-            {this.context.Auth.isAuthenticated ? (
+            {this.context.Auth.isAuthenticated &&
+            JSON.parse(this.context.Auth.user).role == "user" ? (
               <Link to="/achievement">Достижение</Link>
             ) : (
               ""
             )}
           </li>
           <li>
-           
-              <Link to="/video">video</Link>
-           
+            {this.context.Auth.isAuthenticated &&
+            JSON.parse(this.context.Auth.user).role == "admin" ? (
+              <Link to="/control">Управление</Link>
+            ) : (
+              ""
+            )}
+          </li>
+          <li>
+            <Link to="/video">video</Link>
           </li>
         </nav>
       </div>

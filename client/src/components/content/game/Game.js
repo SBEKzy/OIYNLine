@@ -14,7 +14,7 @@ export default class Game extends React.Component {
   componentDidMount() {
     const data = {
       gameId: this.props.name,
-      user_data: JSON.parse(this.props.userId).id,
+      user_data: "" && JSON.parse(this.props.userId).id,
     };
     Axios.post("http://localhost:8080/api/ismygames", data).then((response) => {
       this.setState({ added: response.data.data });
@@ -23,7 +23,7 @@ export default class Game extends React.Component {
   imgClick = () => {
     const data = {
       gameId: this.props.name,
-      user_data: JSON.parse(this.props.userId).id,
+      user_data:  JSON.parse(this.props.userId).id,
     };
     if (this.state.added) {
       Axios.delete(

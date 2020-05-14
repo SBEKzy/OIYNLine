@@ -8,10 +8,10 @@ import (
 	//"github.com/victorsteven/forum/api/auth"
 )
 
-func TokenAuthMiddleware() gin.HandlerFunc {
+func TokenAuthMiddleware(admin bool) gin.HandlerFunc {
 	errList := make(map[string]string)
 	return func(c *gin.Context) {
-		err := auth.ValidToken(c.Request)
+		err := auth.ValidToken(c.Request, admin)
 		if err != nil {
 			errList["unauthorized"] = "Unauthorized"
 			c.JSON(http.StatusUnauthorized, gin.H{

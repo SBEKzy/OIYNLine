@@ -12,6 +12,7 @@ import TicTacToe from '../game/tictactoe/Game'
 import TicTacToeMenu from '../game/tictactoe/menu/Menu'
 import Achievement from "../content/achievement/Achievement"
 import Video from "../content/video/Video"
+import Control from "../content/admin/control/Control"
 
 export default class Content extends React.Component {
   render() {
@@ -28,6 +29,7 @@ export default class Content extends React.Component {
           <Route exact path="/tictactoe-menu" component={TicTacToeMenu} />
           <Route exact path="/achievement" component={Achievement} />
           <Route exact path="/chat" component={MainChat} />
+          <Route exact path="/control" component={Control} />
           <Route exact path="/video" component={Video} />
           
           <Route exact path="" component={NotFound} />

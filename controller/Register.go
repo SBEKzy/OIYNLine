@@ -29,6 +29,8 @@ func (s *Server) Register(c *gin.Context) {
 		return
 	}
 	user.Password = string(hashPass)
+	user.Role = "user"
+	fmt.Println("Register ", user)
 	err = s.DB.Create(&user).Error
 
 	if err != nil {
