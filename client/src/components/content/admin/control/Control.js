@@ -14,14 +14,17 @@ export default class Control extends React.Component {
   componentDidMount() {
     Axios.get("http://localhost:8080/api/control").then((res) => {
       this.setState({ games: [...res.data.data] });
-      console.log(this.state.games)
+      console.log(this.state.games);
     });
   }
 
-  change = () => {
+  change = (i) => {
     if (this.state.change === "Изменить") {
       this.setState({ change: "Сохранить" });
     } else {
+      console.log("put  - ", i.ii);
+      console.log("put  - ", this.state.games[i.ii]);
+      // Axios.put("http://localhost:8080/api/control", this.state.games[i.ii]);
       this.setState({ change: "Изменить" });
     }
   };
@@ -32,7 +35,7 @@ export default class Control extends React.Component {
     return (
       <div>
         <div className="control-game-items">
-          {this.state.games.map((v) => (
+          {this.state.games.map((v, ii) => (
             <div className="control-game-item" key={v.id}>
               <div className="control-game-item-header">
                 <div className="control-game-item-des">
@@ -44,22 +47,36 @@ export default class Control extends React.Component {
                   </div>
                 </div>
                 <div className="control-game-item-btns">
-                  <div onClick={this.change}>{this.state.change}</div>
+                  <div onClick={() => this.change({ ii })}>
+                    {this.state.change}
+                  </div>
                   <div>Удалить</div>
                 </div>
               </div>
               <div className="control-game-item-body" style={changeStyle}>
                 <div>
                   <label htmlFor="">Название</label>
-                  <input type="text" defaultValue={v.name}/>
+                  <input type="text" defaultValue={v.name} />
                 </div>
                 <div>
                   <label htmlFor="">Описания</label>
-                  <textarea name="" id="" cols="30" rows="10" defaultValue={v.description}></textarea>
+                  <textarea
+                    name=""
+                    id=""
+                    cols="30"
+                    rows="10"
+                    defaultValue={v.description}
+                  ></textarea>
                 </div>
                 <div>
                   <label htmlFor="">Правила</label>
-                  <textarea name="" id="" cols="30" rows="10" defaultValue={v.rules}></textarea>
+                  <textarea
+                    name=""
+                    id=""
+                    cols="30"
+                    rows="10"
+                    defaultValue={v.rules}
+                  ></textarea>
                 </div>
               </div>
             </div>

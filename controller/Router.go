@@ -17,6 +17,7 @@ func (s *Server) initializeRoutes() {
 		api.POST("/resultgame", TokenAuthMiddleware(false), s.ResultGame)
 		api.GET("/achievement/:id", TokenAuthMiddleware(false), s.Achievement)
 		api.GET("/control", TokenAuthMiddleware(true), s.Control)
+		api.PUT("/control", TokenAuthMiddleware(true), s.ControlUpdate)
 		api.GET("/mainchat", s.MainChat)
 		api.GET("/ws", s.serveWs)
 	}

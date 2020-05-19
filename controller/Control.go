@@ -24,3 +24,17 @@ func (s *Server) Control(c *gin.Context) {
 		"data":   games,
 	})
 }
+
+func (s *Server) ControlUpdate(c *gin.Context) {
+	fmt.Println("-------------------------------------*")
+	var data models.Game
+	if err := c.BindJSON(&data); err != nil {
+		c.JSON(http.StatusUnprocessableEntity, gin.H{
+			"status": http.StatusUnprocessableEntity,
+			"error":  "Cannot unmarshal body",
+		})
+		return
+	}
+	fmt.Println("-------------------------------------*")
+	fmt.Println(data)
+}
