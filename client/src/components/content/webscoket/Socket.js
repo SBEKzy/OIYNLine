@@ -1,4 +1,4 @@
-var socket = new WebSocket("ws://localhost:8080/api/ws");
+var socket = new WebSocket("ws://localhost:8080/api/tictactoe-menu/ws");
 
 let connect = cb => {
   console.log("Attempting Connection...");

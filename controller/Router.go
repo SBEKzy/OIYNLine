@@ -13,6 +13,6 @@ func (s *Server) initializeRoutes() {
 		api.POST("/resultgame", TokenAuthMiddleware(), s.ResultGame)
 		api.GET("/achievement/:id", TokenAuthMiddleware(), s.Achievement)
 		api.GET("/mainchat", s.MainChat)
-		api.GET("/ws", s.serveWs)
+		api.GET("/tictactoe-menu/ws", s.serveWs)
 	}
 }
