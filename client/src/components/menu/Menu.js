@@ -13,54 +13,40 @@ export default class Menu extends React.Component {
       user = JSON.parse(localStorage.getItem("user_data")).username;
     }
     return (
-      <div className="Menu">
-        <h1>OYINLine</h1>
-        <nav>
-          <li>
-            {!this.context.Auth.isAuthenticated ? (
-              <Link to="/login">Войти</Link>
-            ) : (
-              <Link to="/account">{user}</Link>
-            )}
-          </li>
-          <li>
-            <Link to="/">Каталог игр</Link>
-          </li>
-          <li>
-            {this.context.Auth.isAuthenticated &&
-            JSON.parse(this.context.Auth.user).role == "user" ? (
-              <Link to="/my-games">Мой игры</Link>
-            ) : (
-              ""
-            )}
-          </li>
-          <li>
-            {this.context.Auth.isAuthenticated ? (
-              <Link to="/chat">Сообщество</Link>
-            ) : (
-              ""
-            )}
-          </li>
-          <li>
-            {this.context.Auth.isAuthenticated &&
-            JSON.parse(this.context.Auth.user).role == "user" ? (
-              <Link to="/achievement">Достижение</Link>
-            ) : (
-              ""
-            )}
-          </li>
-          <li>
-            {this.context.Auth.isAuthenticated &&
-            JSON.parse(this.context.Auth.user).role == "admin" ? (
-              <Link to="/control">Управление</Link>
-            ) : (
-              ""
-            )}
-          </li>
-          <li>
-            <Link to="/video">video</Link>
-          </li>
-        </nav>
+      <div
+        className="sidebar"
+        data-color="purple"
+        data-background-color="white"
+        data-image="../assets/img/sidebar-1.jpg"
+      >
+        <div className="logo">
+          <Link to="/" className="simple-text logo-normal">
+            OYINLine
+          </Link>
+        </div>
+        <div className="sidebar-wrapper">
+          <ul className="nav">
+            <li className="nav-item  ">
+              <Link className="nav-link" to="/profile">
+                <i className="material-icons">person</i>
+                <p>{user}</p>
+              </Link>
+            </li>
+            
+            <li className="nav-item  ">
+              <Link className="nav-link" to="/catalog">
+                <i className="material-icons">dashboard</i>
+                <p>Каталог</p>
+              </Link>
+            </li>
+            <li className="nav-item  ">
+              <Link className="nav-link" to="/my-games">
+                <i className="material-icons">dashboard</i>
+                <p>Мои игры</p>
+              </Link>
+            </li>
+          </ul>
+        </div>
       </div>
     );
   }

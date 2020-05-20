@@ -1,5 +1,4 @@
 import React from "react";
-import "./Game.css";
 import tictactoe from "../../../img/tictactoe.png";
 import { Link } from "react-router-dom";
 import heart from "../../../img/heart.png";
@@ -23,7 +22,7 @@ export default class Game extends React.Component {
   imgClick = () => {
     const data = {
       gameId: this.props.name,
-      user_data:  JSON.parse(this.props.userId).id,
+      user_data: JSON.parse(this.props.userId).id,
     };
     if (this.state.added) {
       Axios.delete(
@@ -40,21 +39,29 @@ export default class Game extends React.Component {
   render() {
     let styleGame;
     if (this.state.added) {
-      styleGame = { boxShadow: "1px 1px 10px 1px red" };
+      styleGame = { color: "red" };
     } else {
-      styleGame = { boxShadow: "1px 1px 10px 1px black" };
+      styleGame = { color: "" };
     }
     return (
-      <div className="game-item" style={styleGame}>
-        <img src={tictactoe} alt="" className="game-logo" />
-        <h3>
-          {!this.props.auth ? (
-            <Link to="/login">{this.props.name}</Link>
-          ) : (
-            <Link to="/tictactoe-menu">{this.props.name}</Link>
-          )}
-        </h3>
-        <img src={heart} alt="" className="img-heart" onClick={this.imgClick} />
+      <div class="card card-stats" style={{ width: "400px" }}>
+        <div class="card-header card-header-info card-header-icon">
+          <div class="card-icon">
+            <img src={tictactoe} alt="" />
+          </div>
+          <p class="card-category">логические</p>
+          <h3 class="card-title">{this.props.name}</h3>
+        </div>
+        <div class="card-footer">
+          <div class="stats">
+            <i class="material-icons text-danger">access_time</i>
+            <Link to="/tictactoe-menu">Играть</Link>
+          </div>
+          <div class="stats">
+            <i class="material-icons text-danger">heart</i>
+            <Link to="#" onClick={this.imgClick} style={styleGame}>Нравится</Link>
+          </div>
+        </div>
       </div>
     );
   }
