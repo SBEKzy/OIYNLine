@@ -2,7 +2,6 @@ import React from "react";
 
 
 import Catalog from "./catalog/Catalog";
-import Profile from "./profile/Profile";
 import NotFound from "./notFound/NotFound";
 import MyGames from "./myGames/MyGames";
 import Account from "./account/Account";
@@ -23,7 +22,7 @@ export default class Content extends React.Component {
         <Switch>
           <Route exact path="/login" component={Main} />
           <Route exact path="/catalog" component={Catalog} />
-          <Route exact path="/profile" component={Profile} />
+          <Route exact path="/profile" component={Account} />
           <Route exact path="/my-games" component={MyGames} />
           <Route exact path="/account" component={Account} />
           <Route exact path="/tictactoe" component={TicTacToe} />

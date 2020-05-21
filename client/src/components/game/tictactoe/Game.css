@@ -1,7 +1,10 @@
+.game {
+    margin-left: 50px;
+}
 .status{
     height: 100px;
-    width: 70px;
-    background-color: blanchedalmond;
+    font-style: italic;
+    margin-top: 20px;
     font-size: 70px;
     text-align: center;
 }

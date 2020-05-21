@@ -17,6 +17,8 @@ export default class Main extends React.Component {
       password: "",
       password2: "",
       username: "",
+      name: "",
+      lastname: "",
       passwordError: "",
       //logError: "",
     };
@@ -47,6 +49,8 @@ export default class Main extends React.Component {
       email: this.state.email,
       password: this.state.password,
       username: this.state.username,
+      name: this.state.name,
+      lastname: this.state.lastname,
     };
     register(reg, this.regResult);
   };
@@ -61,6 +65,8 @@ export default class Main extends React.Component {
           password: "",
           password2: "",
           username: "",
+          name: "",
+          lastname: "",
           passwordError: "",
         });
         return;
@@ -213,6 +219,7 @@ export default class Main extends React.Component {
                   <i class="fa fa-envelope" aria-hidden="true"></i>
                 </span>
               </div>
+
               <div
                 class="wrap-input100 validate-input"
                 data-validate="Valid email is required: ex@abc.xyz"
@@ -226,7 +233,40 @@ export default class Main extends React.Component {
                 />
                 <span class="focus-input100"></span>
                 <span class="symbol-input100">
-                  <i class="fa fa-envelope" aria-hidden="true"></i>
+                  <i class="fa fa-address-book" aria-hidden="true"></i>
+                </span>
+              </div>
+
+              <div
+                class="wrap-input100 validate-input"
+                data-validate="Valid email is required: ex@abc.xyz"
+              >
+                <input
+                  class="input100"
+                  type="text"
+                  name="name"
+                  placeholder="name"
+                  onChange={this.changeInput}
+                />
+                <span class="focus-input100"></span>
+                <span class="symbol-input100">
+                  <i class="fa fa-user-circle" aria-hidden="true"></i>
+                </span>
+              </div>
+              <div
+                class="wrap-input100 validate-input"
+                data-validate="Valid email is required: ex@abc.xyz"
+              >
+                <input
+                  class="input100"
+                  type="text"
+                  name="lastname"
+                  placeholder="Last name"
+                  onChange={this.changeInput}
+                />
+                <span class="focus-input100"></span>
+                <span class="symbol-input100">
+                  <i class="fa fa-user-circle" aria-hidden="true"></i>
                 </span>
               </div>
 

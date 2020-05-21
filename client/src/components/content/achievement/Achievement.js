@@ -1,5 +1,5 @@
 import React from "react";
-import "./Achievement.css";
+
 import { ResponsiveContainer, PieChart, Pie } from "recharts";
 import axios from "axios";
 export default class Achievement extends React.Component {
@@ -36,47 +36,29 @@ export default class Achievement extends React.Component {
     ];
     console.log(this.state);
     return (
-      <div>
-        <div className="achievement-content">
-          <div className="achievement-content-item">
-            <div className="achievement-content-item-header">Всего игр</div>
-            <div className="achievement-content-item-body">
-              <div className="achievement-content-item-body-des">
-                <span>Всего сыграно игр - {this.state.amount}</span>
-                <span>Побед - {this.state.amountWin}</span>
-                <span>Поражения - {this.state.amountLose}</span>
-                <span>Уровень - {this.state.levelUser}</span>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card card-plain">
+              <div class="card-header card-header-primary">
+                <h4 class="card-title mt-0"> Достижение</h4>
+                <p class="card-category">Таблица достижение</p>
               </div>
-              <div>
-                <div style={{ width: 500, height: 300 }}>
-                  <ResponsiveContainer>
-                    <PieChart>
-                      <Pie dataKey="value" data={data} fill="#8884d8" label />
-                    </PieChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="achievement-content-center">
-            <div className="achievement-content-item-header">
-              Общая статистика
-            </div>
-            <table className="achievement-content-item-table">
-              <tbody>
-                <tr>
-                  <td></td>
-                  <td>Название</td>
-                  <td>Кол-во игр</td>
-                  <td>Кол-во побед</td>
-                  <td>Кол-во поражений</td>
-                  <td>Уровень</td>
-                </tr>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead class="">
+                      <th>Название</th>
+                      <th>Кол-во игр</th>
+                      <th>Кол-во побед</th>
+                      <th>Кол-во поражений</th>
+                      <th>Уровень</th>
+                    </thead>
+                    <tbody>
 
-                {this.state.game != null ? (
+                      {this.state.game != null ? (
                   this.state.game.map((v, i) => (
                     <tr key={i}>
-                      <td>{i + 1}</td>
                       <td>{v.Name}</td>
                       <td>{v.Amount}</td>
                       <td>{v.AmountWin}</td>
@@ -86,7 +68,6 @@ export default class Achievement extends React.Component {
                   ))
                 ) : (
                   <tr>
-                    <td>1</td>
                     <td>-</td>
                     <td>-</td>
                     <td>-</td>
@@ -94,8 +75,13 @@ export default class Achievement extends React.Component {
                     <td>-</td>
                   </tr>
                 )}
-              </tbody>
-            </table>
+                      
+                      
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -11,10 +11,12 @@ export default class Game extends React.Component {
     };
   }
   componentDidMount() {
+    const user = JSON.parse(this.props.userId)
     const data = {
       gameId: this.props.name,
-      user_data: "" && JSON.parse(this.props.userId).id,
+      user_data: user.id,
     };
+    console.log(data);
     Axios.post("http://localhost:8080/api/ismygames", data).then((response) => {
       this.setState({ added: response.data.data });
     });
@@ -44,21 +46,21 @@ export default class Game extends React.Component {
       styleGame = { color: "" };
     }
     return (
-      <div class="card card-stats" style={{ width: "400px" }}>
-        <div class="card-header card-header-info card-header-icon">
-          <div class="card-icon">
+      <div className="card card-stats" style={{ width: "400px" }}>
+        <div className="card-header card-header-info card-header-icon">
+          <div className="card-icon">
             <img src={tictactoe} alt="" />
           </div>
-          <p class="card-category">логические</p>
-          <h3 class="card-title">{this.props.name}</h3>
+          <p className="card-category">логические</p>
+          <h3 className="card-title">{this.props.name}</h3>
         </div>
-        <div class="card-footer">
-          <div class="stats">
-            <i class="material-icons text-danger">access_time</i>
+        <div className="card-footer">
+          <div className="stats">
+            <i className="material-icons text-danger">access_time</i>
             <Link to="/tictactoe-menu">Играть</Link>
           </div>
-          <div class="stats">
-            <i class="material-icons text-danger">heart</i>
+          <div className="stats">
+            <i className="material-icons text-danger">heart</i>
             <Link to="#" onClick={this.imgClick} style={styleGame}>Нравится</Link>
           </div>
         </div>

@@ -3,7 +3,9 @@ import "./App.css";
 import Menu from "./components/menu/Menu";
 import Content from "./components/content/Content";
 import { MyContext } from "./context/MyContext";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Link } from "react-router-dom";
+import { logout } from "./authorization/Authorization";
+import { Redirect } from "react-router";
 import Main from "./components/content/main/Main";
 // const reducer = (state, action) =>{
 //   switch(action.type){
@@ -80,6 +82,14 @@ export default class App extends React.Component {
     }
   };
 
+  lout = () => {
+    logout(this.state.setAuth);
+    this.setState({ redirect: true });
+  };
+  redirectFunc = () => {
+    if (this.state.redirect) return <Redirect to="/" />;
+  };
+
   render() {
     return (
       <MyContext.Provider value={this.state}>
@@ -88,6 +98,7 @@ export default class App extends React.Component {
             <Main />
           ) : (
             <div className="">
+            {this.redirectFunc()}
               <div className="wrapper ">
                 <Menu />
                 {/* <Content /> */}
@@ -115,64 +126,9 @@ export default class App extends React.Component {
                         <span className="navbar-toggler-icon icon-bar"></span>
                       </button>
                       <div className="collapse navbar-collapse justify-content-end">
-                        <form className="navbar-form">
-                          <div className="input-group no-border">
-                            <input
-                              type="text"
-                              value=""
-                              className="form-control"
-                              placeholder="Search..."
-                            />
-                            <button
-                              type="submit"
-                              className="btn btn-white btn-round btn-just-icon"
-                            >
-                              <i className="material-icons">search</i>
-                              <div className="ripple-container"></div>
-                            </button>
-                          </div>
-                        </form>
+                        
                         <ul className="navbar-nav">
-                          <li className="nav-item">
-                            <a className="nav-link" href="javascript:;">
-                              <i className="material-icons">dashboard</i>
-                              <p className="d-lg-none d-md-block">Stats</p>
-                            </a>
-                          </li>
-                          <li className="nav-item dropdown">
-                            <a
-                              className="nav-link"
-                              href="http://example.com"
-                              id="navbarDropdownMenuLink"
-                              data-toggle="dropdown"
-                              aria-haspopup="true"
-                              aria-expanded="false"
-                            >
-                              <i className="material-icons">notifications</i>
-                              <span className="notification">5</span>
-                              <p className="d-lg-none d-md-block">Some Actions</p>
-                            </a>
-                            <div
-                              className="dropdown-menu dropdown-menu-right"
-                              aria-labelledby="navbarDropdownMenuLink"
-                            >
-                              <a className="dropdown-item" href="#">
-                                Mike John responded to your email
-                              </a>
-                              <a className="dropdown-item" href="#">
-                                You have 5 new tasks
-                              </a>
-                              <a className="dropdown-item" href="#">
-                                You're now friend with Andrew
-                              </a>
-                              <a className="dropdown-item" href="#">
-                                Another Notification
-                              </a>
-                              <a className="dropdown-item" href="#">
-                                Another One
-                              </a>
-                            </div>
-                          </li>
+                          
                           <li className="nav-item dropdown">
                             <a
                               className="nav-link"
@@ -189,14 +145,12 @@ export default class App extends React.Component {
                               className="dropdown-menu dropdown-menu-right"
                               aria-labelledby="navbarDropdownProfile"
                             >
-                              <a className="dropdown-item" href="#">
+                              <Link className="dropdown-item" to="/profile">
                                 Profile
-                              </a>
-                              <a className="dropdown-item" href="#">
-                                Settings
-                              </a>
+                              </Link>
+                              
                               <div className="dropdown-divider"></div>
-                              <a className="dropdown-item" href="#">
+                              <a className="dropdown-item" href="#" onClick={this.lout}>
                                 Log out
                               </a>
                             </div>

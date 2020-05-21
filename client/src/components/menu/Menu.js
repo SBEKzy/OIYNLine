@@ -45,6 +45,24 @@ export default class Menu extends React.Component {
                 <p>Мои игры</p>
               </Link>
             </li>
+            <li className="nav-item  ">
+              <Link className="nav-link" to="/achievement">
+                <i className="material-icons">content_paste</i>
+                <p>Достижение</p>
+              </Link>
+            </li>
+            <li className="nav-item  ">
+              <Link className="nav-link" to="/chat">
+                <i className="material-icons">library_books</i>
+                <p>Сообщество</p>
+              </Link>
+            </li>
+            <li className="nav-item  ">
+              <Link className="nav-link" to="/video">
+                <i className="material-icons">library_books</i>
+                <p>Видео</p>
+              </Link>
+            </li>
           </ul>
         </div>
       </div>

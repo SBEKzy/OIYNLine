@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -14,14 +15,14 @@ export default class Login extends React.Component {
   }
 
   componentDidMount() {
-    // const g = JSON.parse(this.props.context.Auth.user);
+    const g = JSON.parse(this.props.context.Auth.user);
 
-    // axios
-    //   .get("http://localhost:8080/api/account/" + g.username)
-    //   .then((response) => {
-    //     const user = response.data.user;
-    //     this.setState({ username: user.username, email: user.email });
-    //   });
+    axios
+      .get("http://localhost:8080/api/account/" + g.username)
+      .then((response) => {
+        const user = response.data.user;
+        this.setState({ username: user.username, email: user.email, name: user.name, lastname: user.lastname });
+      });
   }
 
   submitFrom = (e) => {
@@ -32,9 +33,13 @@ export default class Login extends React.Component {
       const data = {
         username: e.target.elements[0].value, // todo: with name
         email: e.target.elements[1].value,
-        password: e.target.elements[2].value,
+        name: e.target.elements[2].value,
+        lastname: e.target.elements[3].value,
+        password: e.target.elements[4].value,
+        des : e.target.elements[6].value,
         id: g.id,
       };
+      console.log(data)
       axios.put("http://localhost:8080/api/account", data).then((response) => {
         localStorage.setItem("user_data", JSON.stringify(response.data.user));
         this.props.context.setAuth("LOGIN");
@@ -119,7 +124,7 @@ export default class Login extends React.Component {
                 <p className="card-category">Профильді толық жазыңыз</p>
               </div>
               <div className="card-body">
-                <form>
+                <form onSubmit={this.submitFrom}>
                   <div className="row">
                     <div className="col-md-3">
                       <div className="form-group">
@@ -128,7 +133,7 @@ export default class Login extends React.Component {
                           type="text"
                           className="form-control"
                           disabled={this.state.disabled ? "disabled" : ""}
-                          defaultValue={this.state.username}
+                          
                           onChange={this.changeInput}
                           name="username"
                         />
@@ -189,9 +194,8 @@ export default class Login extends React.Component {
                       </div>
                     </div>
                   </div>
-                  <button type="submit" className="btn btn-primary pull-right">
-                    Update Profile
-                  </button>
+                  <input type="submit" className="btn btn-primary pull-right" value=" Изменить данные"/>
+                  
                   <div className="clearfix"></div>
                 </form>
               </div>
@@ -205,16 +209,15 @@ export default class Login extends React.Component {
                 </a>
               </div>
               <div className="card-body">
-                <h6 className="card-category text-gray">CEO / Co-Founder</h6>
-                <h4 className="card-title">Alec Thompson</h4>
+                <h6 className="card-category text-gray">{this.state.username}</h6>
+                <h6 className="card-category text-gray">{this.state.email}</h6>
+                <h4 className="card-title">{this.state.name} {this.state.lastname}</h4>
                 <p className="card-description">
-                  Don't be scared of the truth because we need to restart the
-                  human foundation in truth And I love you like Kanye loves
-                  Kanye I love Rick Owens’ bed design but the back is...
+                  Раскажите немного о себе
                 </p>
-                <a href="javascript:;" className="btn btn-primary btn-round">
+                {/* <a href="javascript:;" className="btn btn-primary btn-round">
                   Follow
-                </a>
+                </a> */}
               </div>
             </div>
           </div>
