@@ -1,0 +1,58 @@
+.control-game-item {
+  border: 1px solid black;
+  padding: 15px;
+  margin: 55px;
+  border-radius: 10px;
+}
+
+.control-game-item-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.control-game-item-des {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+}
+.control-game-item-des div {
+  margin-left: 10px;
+}
+
+.control-game-item-des > div > img {
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.control-game-item-btns > div {
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.control-game-item-btns > div:last-child {
+  background-color: rgb(218, 21, 21);
+  color: white;
+}
+
+.control-game-item-body {
+  font-size: 18px;
+}
+
+.control-game-item-body > div {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 5px;
+  margin: 20px;
+}
+
+.control-game-item-body > div > textarea,
+.control-game-item-body > div > input {
+  width: 70%;
+  padding: 10px;
+  border-radius: 10px;
+}

@@ -51,7 +51,7 @@ func (s *Server) signIn(email, password string) (map[string]interface{}, error) 
 		return nil, err
 	}
 
-	token, err := auth.CreateToken(user.ID)
+	token, err := auth.CreateToken(user.ID, user.Role)
 	if err != nil {
 		fmt.Println("Error to create token ", err)
 		return nil, err
@@ -60,6 +60,7 @@ func (s *Server) signIn(email, password string) (map[string]interface{}, error) 
 	userData["token"] = token
 	userData["id"] = user.ID
 	userData["email"] = user.Email
+	userData["role"] = user.Role
 	userData["username"] = user.Username
 	return userData, nil
 }
