@@ -8,6 +8,8 @@ import (
 
 var freePools = make(map[string]*Pool)
 
+//var allRooms = make(map[string]*)
+
 type Pool struct {
 	Name         string
 	Register     chan *Client
@@ -45,6 +47,7 @@ func (p *Pool) Start() {
 		case client := <-p.Register:
 			p.Clients[client] = true
 			log.Printf("Client %d has joined to pool:%s", len(p.Clients), p.Name)
+			log.Printf("Client", client)
 			if len(p.Clients) == 2 {
 				delete(freePools, p.Name)
 				for client, _ := range p.Clients {

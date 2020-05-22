@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	models "github.com/OIYNLine/model"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 )
@@ -25,6 +26,7 @@ func Upgrade(w http.ResponseWriter, r *http.Request) (*websocket.Conn, error) {
 }
 
 func (s *Server) serveWs(c *gin.Context) {
+	var user models.User
 	conn, err := Upgrade(c.Writer, c.Request)
 	if err != nil {
 		fmt.Fprintf(c.Writer, "%+V\n", err)
@@ -40,9 +42,11 @@ func (s *Server) serveWs(c *gin.Context) {
 		go pool.Start()
 	}
 	client := &Client{
+		ID:   user.Username,
 		Conn: conn,
 		Pool: pool,
 	}
+	log.Printf("-----", user.Username)
 	pool.Register <- client
 	client.Read()
 }
