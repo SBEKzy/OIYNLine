@@ -12,6 +12,9 @@ export default function Video() {
 
   function gotLocalMediaStream(stream) {
     console.log("qweqwe2");
+    const myvideo = document.getElementById("my");
+    myvideo.srcObject = stream;
+    myvideo.play();
     var peer = new Peer({
       initiator: window.location.hash === "#init",
       trickle: false,
@@ -30,8 +33,7 @@ export default function Video() {
     });
 
     peer.on("stream", function (stream) {
-      var video = document.createElement("video");
-      document.body.appendChild(video);
+      const video = document.getElementById("other")
 
       video.srcObject = stream;
       video.play();
@@ -110,6 +112,11 @@ export default function Video() {
   //   .catch(handleLocalMediaStreamError);
   return (
     <div>
+    <div>
+    <video  id="my"></video>
+      <video  id="other"></video>
+    </div>
+    
       <label>Your ID:</label>
       <br />
       <textarea id="yourId"></textarea>
@@ -119,6 +126,7 @@ export default function Video() {
       <textarea id="otherId"></textarea>
       <button id="connect">connect</button>
       <br />
+      
     </div>
   );
 }

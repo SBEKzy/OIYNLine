@@ -4,13 +4,15 @@
     height: 500px;
     display: flex;
     flex-direction: column;
-    
+    background-color:  #fff;
+    border-radius: 15px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
   }
   
   .chat-show {
     height: 80%;
     width: 100%;
-    border: 1px solid cadetblue;
+   
     position: relative;
     overflow: auto;
    
@@ -18,8 +20,12 @@
   
   .chat-send {
     height: 10%;
-    width: 100%;
-    border: 1px solid cadetblue;
+    width: 90%;
+    
+    box-shadow: 1px 1px 1px 1px black;
+    box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(156, 39, 176, 0.4);
+    margin: 15px auto;
+    border-radius: 25px;
     display: flex;
     justify-content: space-between;
   }
@@ -42,22 +48,27 @@
   
   .message {
     margin-left: 10px;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-    border-top-right-radius: 15px;
-    margin-bottom: 10px;
-    background-color: cadetblue;
+    
+    margin-bottom: 15px;
+    
     width: 200px; 
   }
   
   .message .name{
       text-decoration: underline;
-      font-size: 15px;
+      font-size: 10px;
       padding-left: 5px;
+      font-style: italic;
   }
   
   .message .text{
-      padding: 5px;
+      padding: 15px;
+      box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(156, 39, 176, 0.4);
+    background: linear-gradient(50deg, #ab47bc, #8e24aa);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+    color: white;
   }
   
   

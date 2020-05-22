@@ -3,10 +3,10 @@ import "./Account.css";
 import { MyContext } from "../../../context/MyContext";
 import { logout } from "../../../authorization/Authorization";
 import { Redirect } from "react-router";
-import InfoAccount from "./infoAccount/InfoAccount"
+import Profile from "../profile/Profile";
 export default class Account extends React.Component {
   state = {
-    redirect: false,    
+    redirect: false,
   };
   static contextType = MyContext;
 
@@ -16,16 +16,13 @@ export default class Account extends React.Component {
   };
   redirectFunc = () => {
     if (this.state.redirect) return <Redirect to="/" />;
-  }; 
-  
+  };
 
   render() {
     return (
-      <div className="account">
-        <div className="info">
+      <div>
         {this.redirectFunc()}
-          <InfoAccount lout={this.lout} context={this.context}/>
-        </div>
+        <Profile lout={this.lout} context={this.context} />
       </div>
     );
   }

@@ -62,7 +62,7 @@ export default class Game extends React.Component {
       <div className="game">
         <h1>Крестики нолики</h1>
         <div className="info">
-          <div className="status">{status}</div>
+          <div className="status">Вы играете за {status}</div>
           {winner ? <div className="result">Победил : {winner}</div> : ""}
         </div>
         <Board

@@ -1,5 +1,5 @@
 import React from "react";
-import "./Catalog.css";
+
 import Game from "../game/Game";
 import { MyContext } from "../../../context/MyContext";
 
@@ -22,22 +22,19 @@ export default class Catalog extends React.Component {
   static contextType = MyContext;
   render() {
     return (
-      <div className="catalog">
-        <h3>
-          {this.context.Auth.isAuthenticated
-            ? ""
-            : "Авторизуйтесь пожалуйста, без авторизации вы не можете запускать игры"}
-        </h3>
-        <div className="game-items">
-          {this.state.catalog.map((v, i) => (
-            <Game
-              auth={this.context.Auth.isAuthenticated}
-              name={v}
-              key={i}
-              gameId={i}
-              userId={this.context.Auth.user}
-            />
-          ))}
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-3 col-md-6 col-sm-6">
+            {this.state.catalog.map((v, i) => (
+              <Game
+                auth={this.context.Auth.isAuthenticated}
+                name={v}
+                key={i}
+                gameId={i}
+                userId={this.context.Auth.user}
+              />
+            ))}
+          </div>
         </div>
       </div>
     );

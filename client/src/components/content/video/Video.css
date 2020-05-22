@@ -1,6 +1,21 @@
 video {
     max-width: 100%;
-    width: 320px;
+    /* width: 320px; */
     z-index: 1000;
-    margin-left: 400px;
+   
+  }
+
+  #my {
+    width: 80%;
+
+  }
+
+  #other{
+    width: 100px;
+    position: relative;
+    top: -260px;
+    left: 10px;
+    
+    width: 250px;
+    height: 250px;
   }
