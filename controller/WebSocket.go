@@ -42,11 +42,11 @@ func (s *Server) serveWs(c *gin.Context) {
 		go pool.Start()
 	}
 	client := &Client{
-		ID:   user.Username,
 		Conn: conn,
 		Pool: pool,
 	}
 	log.Printf("-----", user.Username)
 	pool.Register <- client
+	log.Printf("-------", pool.Register)
 	client.Read()
 }

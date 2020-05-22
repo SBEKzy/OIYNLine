@@ -2,6 +2,7 @@ package controller
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	auth "github.com/OIYNLine/controller/Auth"
@@ -56,7 +57,11 @@ func (s *Server) signIn(email, password string) (map[string]interface{}, error) 
 		fmt.Println("Error to create token ", err)
 		return nil, err
 	}
-
+	cl := &Client{
+		ID: make(chan string),
+	}
+	cl.ID <- user.Username
+	log.Print(cl.ID)
 	userData["token"] = token
 	userData["id"] = user.ID
 	userData["email"] = user.Email

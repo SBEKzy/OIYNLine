@@ -8,7 +8,7 @@ import (
 )
 
 type Client struct {
-	ID    string
+	ID    chan string
 	Conn  *websocket.Conn
 	Pool  *Pool
 	Ready bool
