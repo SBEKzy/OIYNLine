@@ -26,6 +26,7 @@ func Upgrade(w http.ResponseWriter, r *http.Request) (*websocket.Conn, error) {
 
 func (s *Server) serveWs(c *gin.Context) {
 	conn, err := Upgrade(c.Writer, c.Request)
+	log.Print(conn)
 	if err != nil {
 		fmt.Fprintf(c.Writer, "%+V\n", err)
 	}

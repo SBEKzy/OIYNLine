@@ -31,6 +31,7 @@ func (server *Server) Initialize() {
 		&models.History{},
 		&models.MyGames{},
 		&models.Game{},
+		&models.Friend{},
 	)
 	server.Router = gin.Default()
 	server.Router.Use(CORSMiddleware())

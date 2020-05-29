@@ -111,7 +111,7 @@ export default class Main extends React.Component {
 
   Red = () => {
     if (this.state.redirect) {
-      return <Redirect to="/account" />;
+      return <Redirect to="/profile" />;
     }
   };
 
