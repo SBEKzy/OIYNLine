@@ -1,6 +1,5 @@
 import React from "react";
 
-import { ResponsiveContainer, PieChart, Pie } from "recharts";
 import axios from "axios";
 export default class Achievement extends React.Component {
   state = {
@@ -10,7 +9,7 @@ export default class Achievement extends React.Component {
     //game: {},
     levelUser: 0,
   };
-  static jsfiddleUrl = "//jsfiddle.net/alidingling/6okmehja/";
+  
   componentDidMount() {
     const id = parseInt(JSON.parse(localStorage.getItem("user_data")).id);
     axios

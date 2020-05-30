@@ -46,9 +46,9 @@ export default class Menu extends React.Component {
               </Link>
             </li>
             <li className="nav-item  ">
-              <Link className="nav-link" to="/achievement">
+              <Link className="nav-link" to="/friends">
                 <i className="material-icons">content_paste</i>
-                <p>Достижение</p>
+                <p>Друзья</p>
               </Link>
             </li>
             <li className="nav-item  ">

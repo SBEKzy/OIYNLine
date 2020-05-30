@@ -1,7 +1,9 @@
 import React from "react";
 import tictactoe from "../../../img/tictactoe.png";
+import lock from "./lock.png";
 import { Link } from "react-router-dom";
 import heart from "../../../img/heart.png";
+import "./Game.css"
 import Axios from "axios";
 export default class Game extends React.Component {
   constructor() {
@@ -46,10 +48,10 @@ export default class Game extends React.Component {
       styleGame = { color: "" };
     }
     return (
-      <div className="card card-stats" style={{ width: "400px" }}>
+      <div className={this.props.price ==  0? "card card-stats" : "card card-stats game-block"} style={{ width: "400px" }}>
         <div className="card-header card-header-info card-header-icon">
           <div className="card-icon">
-            <img src={tictactoe} alt="" />
+            <img src={this.props.price != 0 ? lock:  tictactoe} alt="" />
           </div>
           <p className="card-category">логические</p>
           <h3 className="card-title">{this.props.name}</h3>
@@ -57,7 +59,7 @@ export default class Game extends React.Component {
         <div className="card-footer">
           <div className="stats">
             <i className="material-icons text-danger">access_time</i>
-            <Link to="/tictactoe-menu">Играть</Link>
+            {this.props.price == 0 ? <Link to="/tictactoe-menu">Играть</Link> : ""}
           </div>
           <div className="stats">
             <i className="material-icons text-danger">heart</i>
