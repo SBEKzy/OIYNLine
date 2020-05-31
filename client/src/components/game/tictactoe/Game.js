@@ -15,6 +15,9 @@ export default class Game extends React.Component {
   componentDidMount() {
     this.setState({ squares: this.state.squares });
   }
+  componentWillUnmount(){
+    socket.close();
+  }
   game = {
     flag: false,
   };
