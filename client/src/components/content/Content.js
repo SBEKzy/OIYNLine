@@ -13,6 +13,7 @@ import Achievement from "../content/achievement/Achievement"
 import Video from "../content/video/Video"
 import Main from "../content/main/Main"
 import Control from "../content/admin/control/Control"
+import Friends  from "../content/friends/Friends"
 
 export default class Content extends React.Component {
   render() {
@@ -31,6 +32,7 @@ export default class Content extends React.Component {
           <Route exact path="/chat" component={MainChat} />
           <Route exact path="/control" component={Control} />
           <Route exact path="/video" component={Video} />
+          <Route exact path="/friends" component={Friends} />
           
           <Route exact path="" component={NotFound} />
         </Switch>

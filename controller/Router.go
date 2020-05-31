@@ -18,6 +18,10 @@ func (s *Server) initializeRoutes() {
 		api.GET("/achievement/:id", TokenAuthMiddleware(false), s.Achievement)
 		api.GET("/control", TokenAuthMiddleware(true), s.Control)
 		api.PUT("/control", TokenAuthMiddleware(true), s.ControlUpdate)
+		api.GET("/searchFriend/:name", TokenAuthMiddleware(false), s.SearchFriend)
+		api.POST("/friendAdd", TokenAuthMiddleware(false), s.FriendRequest)
+		api.GET("/friends/:id", TokenAuthMiddleware(false), s.Friends)
+		api.PUT("/friendAdd", TokenAuthMiddleware(false), s.FriendRequestAdd)
 		api.GET("/mainchat", s.MainChat)
 		api.GET("/ws", s.serveWs)
 	}

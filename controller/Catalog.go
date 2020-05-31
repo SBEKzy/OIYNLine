@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/OIYNLine/model"
 	models "github.com/OIYNLine/model"
 	"github.com/gin-gonic/gin"
 )
@@ -36,5 +37,18 @@ func (s *Server) Catalog(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"status": http.StatusOK,
 		"data":   data,
+	})
+}
+
+func (s *Server) SearchCatalog(c *gin.Context) {
+	name := c.Param("name")
+	var games []model.Game
+	if err := s.DB.Debug().Find(&games).Where("name = ?", name).Error; err != nil {
+		fmt.Println("SearchCatalog - ", err)
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"status": http.StatusOK,
+		"result": games,
 	})
 }
