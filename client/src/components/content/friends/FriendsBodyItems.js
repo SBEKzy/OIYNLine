@@ -7,6 +7,7 @@ import video from "./video.png";
 import chat from "./chat.png";
 import added from "./added.png";
 import Axios from "axios";
+import { Redirect } from "react-router";
 
 export default class FriendsBodyItems extends React.Component {
   constructor() {
@@ -14,11 +15,10 @@ export default class FriendsBodyItems extends React.Component {
     this.state = {
       add: false,
       requestadd: false,
-      friends : [],
+      friends: [],
+      clcVideo: false,
     };
   }
-
-
 
   clcSearch = () => {
     const u = JSON.parse(localStorage.getItem("user_data")).id;
@@ -35,13 +35,15 @@ export default class FriendsBodyItems extends React.Component {
     }
     this.setState({ add: !this.state.add });
   };
-
+  clcVideo = () => {
+    this.setState({ clcVideo: !this.state.clcVideo });
+  };
   clcRequest = () => {
     const data = {
-      id : this.props.req
-    }
+      id: this.props.req,
+    };
     console.log("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ2", data);
-    Axios.put("http://localhost:8080/api/friendAdd",data)
+    Axios.put("http://localhost:8080/api/friendAdd", data);
     this.setState({ requestadd: !this.state.requestadd });
   };
 
@@ -63,7 +65,9 @@ export default class FriendsBodyItems extends React.Component {
     //     );
     //   }
     // };
-
+    if (this.state.clcVideo) {
+      return <Redirect to="/video" />;
+    }
     return (
       <div className="friends-body-item">
         <div>
@@ -91,7 +95,7 @@ export default class FriendsBodyItems extends React.Component {
           ) : (
             <div>
               <img src={audio} alt="" />
-              <img src={video} alt="" />
+              <img src={video} alt="" onClick={this.clcVideo} />
               <img src={chat} alt="" />
             </div>
           )}

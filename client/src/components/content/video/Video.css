@@ -6,8 +6,7 @@ video {
   }
 
   #my {
-    width: 80%;
-
+    width: 70%;
   }
 
   #other{
@@ -18,4 +17,20 @@ video {
     
     width: 250px;
     height: 250px;
+  }
+
+  .images{
+    display: flex;
+    justify-content: space-around;
+    width: 500px;
+    position: absolute;
+    bottom: 10px;
+   left: 150px;
+  }
+
+  .images > div {
+    padding: 20px;
+    background-color: rgba(0,0,0,0.1);
+    border-radius: 50%;
+   
   }
