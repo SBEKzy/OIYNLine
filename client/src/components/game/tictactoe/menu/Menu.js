@@ -23,7 +23,7 @@ export default class Menu extends React.Component {
       }
     };
     this.setState({ socket: sockett(t) });
-    Axios.get("http://localhost:8080/api/tictactoe-menu").then((res) => {
+    Axios.get("http://localhost:8080/api/tictactoe-menuu").then((res) => {
       console.log("ffffffffffffffffffffffffff", res.data.data); // friend id ala alam
       if (res.data.data === undefined || res.data.data === null) {
         this.setState({ pools: [] });

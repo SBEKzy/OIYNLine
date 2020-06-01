@@ -24,6 +24,6 @@ func (s *Server) initializeRoutes() {
 		api.PUT("/friendAdd", TokenAuthMiddleware(false), s.FriendRequestAdd)
 		api.GET("/mainchat", s.MainChat)
 		api.GET("/tictactoe-menu/:id", s.serveWs)
-		api.GET("tictactoe-menu", s.TictacMenu)
+		api.GET("tictactoe-menuu", s.TictacMenu)
 	}
 }
