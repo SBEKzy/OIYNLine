@@ -32,6 +32,7 @@ export default class Content extends React.Component {
           <Route exact path="/control" component={Control} />
           <Route exact path="/video" component={Video} />
           
+          
           <Route exact path="" component={NotFound} />
         </Switch>
       </div>

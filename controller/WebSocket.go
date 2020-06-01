@@ -5,7 +5,6 @@ import (
 	"log"
 	"net/http"
 
-	models "github.com/OIYNLine/model"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 )
@@ -26,13 +25,16 @@ func Upgrade(w http.ResponseWriter, r *http.Request) (*websocket.Conn, error) {
 }
 
 func (s *Server) serveWs(c *gin.Context) {
-	var user models.User
+	//var user models.User
+
 	conn, err := Upgrade(c.Writer, c.Request)
-	log.Print(conn)
+	//log.Print(conn)
 	if err != nil {
 		fmt.Fprintf(c.Writer, "%+V\n", err)
 	}
 	var pool *Pool
+	poolId := c.Param("id")
+	poolType := c.Query("type")
 	if len(freePools) > 0 {
 		for _, p := range freePools {
 			pool = p
@@ -42,12 +44,20 @@ func (s *Server) serveWs(c *gin.Context) {
 		pool = NewPool()
 		go pool.Start()
 	}
+	pool = NewPool()
+	go pool.Start()
 	client := &Client{
 		Conn: conn,
 		Pool: pool,
 	}
-	log.Printf("-----", user.Username)
+	result := FreePool{Name: pool.Name}
+	if err := s.DB.Debug().Create(&result).Error; err != nil {
+		fmt.Println(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"err": "InternalServerError"})
+		return
+	}
+	//log.Printf("-----", user.Username)
 	pool.Register <- client
-	log.Printf("-------", pool.Register)
-	client.Read()
+	//log.Printf("-------", pool.Register)
+	client.Read(s)
 }

@@ -1,30 +1,39 @@
-var socket = new WebSocket("ws://localhost:8080/api/tictactoe-menu/ws");
+export const sockett = (cb) => {
+  var socket = new WebSocket("ws://localhost:8080/api/tictactoe-menu/game/ws");
 
-let connect = cb => {
-  console.log("Attempting Connection...");
+    console.log("Attempting Connection...");
 
-  socket.onopen = () => {
-    console.log("Successfully Connected");
+    socket.onopen = () => {
+      console.log("Successfully Connected");
+      const u = JSON.parse(localStorage.getItem("user_data"));
+    socket.send(
+      JSON.stringify({ name: u.username, type: "register"})
+    );
+    };
+
+    socket.onmessage = (msg) => {
+      console.log(msg);
+      cb(msg);
+    };
+
+    socket.onclose = (event) => {
+      console.log("Socket Error: ", event);
+    };
+
+    socket.onerror = (error) => {
+      console.log("Cosket error: ", error);
+    };
+  
+
+  let sendMsg = (msg) => {
+    console.log("sending msg: ", msg);
+    socket.send(msg);
   };
 
-  socket.onmessage = (msg) => {
-    console.log(msg);
-    cb(msg)
+  const res = {
+    socket: socket,
+    sendMsg: sendMsg,
     
   };
-
-  socket.onclose = (event) => {
-    console.log("Socket Error: ", event);
-  };
-
-  socket.onerror = (error) => {
-    console.log("Cosket error: ", error);
-  };
+  return res;
 };
-
-let sendMsg = (msg) => {
-  console.log("sending msg: ", msg);
-  socket.send(msg);
-};
-
-export {connect, sendMsg, socket}

@@ -1,7 +1,7 @@
 import React from "react";
 import "./Game.css";
 import Board from "./board/Board";
-import { sendMsg, socket } from "../../content/webscoket/Socket";
+import {sockett} from "../../content/webscoket/Socket.js";
 import axios from "axios";
 export default class Game extends React.Component {
   constructor(props) {
@@ -9,14 +9,21 @@ export default class Game extends React.Component {
     this.state = {
       squares: Array(9).fill(null),
       xIsNext: this.props.location.state.x,
+      socket : null,
     };
-    socket.onmessage = this.ch;
+    
   }
   componentDidMount() {
     this.setState({ squares: this.state.squares });
+    this.setState({socket : sockett})
+    this.state.socket.onmessage = (msg) => {
+      console.log(msg);
+      this.ch(msg)
+    };
+    //this.state.socket.connect(this.ch)
   }
   componentWillUnmount(){
-    socket.close();
+    this.state.socket.close()
   }
   game = {
     flag: false,
@@ -34,7 +41,7 @@ export default class Game extends React.Component {
       return;
     }
     square[i] = this.state.xIsNext ? "X" : "O";
-    sendMsg(square);
+    this.state.socket.send(square);//----------------
   };
 
   gameover = () => {

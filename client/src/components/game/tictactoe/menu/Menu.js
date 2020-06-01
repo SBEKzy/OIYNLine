@@ -1,15 +1,18 @@
 import React from "react";
 import "./Menu.css";
-import { connect, sendMsg } from "../../../content/webscoket/Socket";
+import { sockett } from "../../../content/webscoket/Socket.js";
 import { Redirect } from "react-router";
 export default class Menu extends React.Component {
   state = {
     gameStart: false,
     redirect: false,
     x: false,
+    socket : null,
   };
   componentDidMount() {
-    connect((msg) => {
+
+    
+    const t = ((msg) => {
       if (this.state.gameStart) {
         const data = JSON.parse(msg.data);
         if (data.ready === 2) {
@@ -19,6 +22,7 @@ export default class Menu extends React.Component {
         }
       }
     });
+    this.setState({socket:sockett(t)})
   }
   gameStart = () => {
     this.setState({ gameStart: !this.state.gameStart });
@@ -31,7 +35,7 @@ export default class Menu extends React.Component {
       a[0] = "notready";
     }
     console.log("456 ->", a);
-    sendMsg(a);
+    this.state.socket.sendMsg(a);
   };
 
   Red = () => {

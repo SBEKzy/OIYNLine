@@ -19,6 +19,7 @@ func (s *Server) initializeRoutes() {
 		api.GET("/control", TokenAuthMiddleware(true), s.Control)
 		api.PUT("/control", TokenAuthMiddleware(true), s.ControlUpdate)
 		api.GET("/mainchat", s.MainChat)
-		api.GET("/tictactoe-menu/ws", s.serveWs)
+		api.GET("/tictactoe-menu/:id", s.serveWs)
+		api.GET("tictactoe-menu", s.TictacMenu)
 	}
 }

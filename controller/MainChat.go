@@ -29,6 +29,7 @@ func (s *Server) MainChat(c *gin.Context) {
 		Conn: conn,
 		Pool: poolMainChat,
 	}
+	log.Print(client)
 	poolMainChat.Register <- client
 	client.PoolMainChatRead()
 }
@@ -89,7 +90,6 @@ func (c *ClientMainChat) PoolMainChatRead() {
 		// 		}
 		// 	}
 		// }
-		fmt.Println(body)
 		BroadcastMsg.Msg = body
 		c.Pool.Broadcast <- BroadcastMsg
 	}
@@ -120,7 +120,7 @@ func (p *PoolMainChat) Start() {
 			fmt.Println("message := <-p.Broadcast: ", BroadcastMsg)
 			if BroadcastMsg.Msg.Register == 1 && p.Clients[BroadcastMsg.Client] == "true" {
 				p.Clients[BroadcastMsg.Client] = BroadcastMsg.Msg.Name
-
+				log.Print(BroadcastMsg.Msg.Name)
 				BroadcastMsg.Msg.Clients = p.onlineClients()
 				fmt.Print("client ")
 				fmt.Print(BroadcastMsg.Client)

@@ -20,6 +20,14 @@ type Pool struct {
 	Ready        chan *Client
 }
 
+type FreePool struct {
+	ID          int    `gorm:"primary_key;auto_increment" json:"id"`
+	Name        string `gorm:"size:255;" json:"name"`
+	Player1     string `gorm:"size:255;" json:"player1"`
+	Player2     string `gorm:"size:255;" json:"player2"`
+	PlayerCount int    `gorm:"size:255;" json:"playercount"`
+}
+
 func NewPool() *Pool {
 	name := utils.RandString(16)
 	pool := &Pool{
@@ -31,23 +39,26 @@ func NewPool() *Pool {
 		ReadyClients: make(map[*Client]bool),
 		Ready:        make(chan *Client),
 	}
+
 	freePools[name] = pool
 	log.Printf("Pool %s created", pool.Name)
 	return pool
 }
 
 func (p *Pool) Start() {
+
 	defer func() {
 		delete(freePools, p.Name)
 		log.Print("Pool closed:", p.Name)
 	}()
 
 	for {
+
 		select {
 		case client := <-p.Register:
 			p.Clients[client] = true
 			log.Printf("Client %d has joined to pool:%s", len(p.Clients), p.Name)
-			log.Printf("Client", client)
+			//log.Printf("Client", client)
 			if len(p.Clients) == 2 {
 				delete(freePools, p.Name)
 				for client, _ := range p.Clients {
@@ -56,6 +67,7 @@ func (p *Pool) Start() {
 			}
 
 		case client := <-p.Unregister:
+			log.Printf("Client %d has leavеd to pool:%s", len(p.Clients), p.Name)
 			delete(p.Clients, client)
 			delete(p.ReadyClients, client)
 			if len(p.Clients) == 0 {

@@ -28,6 +28,7 @@ func (server *Server) Initialize() {
 		&models.MyGames{},
 		&models.Game{},
 		&models.Friend{},
+		&FreePool{},
 	)
 	server.Router = gin.Default()
 	server.Router.Use(CORSMiddleware())
