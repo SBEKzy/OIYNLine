@@ -1,9 +1,10 @@
 import React from "react";
 import "./Video.css";
-
+import close from "./close.png";
+import mute from "./mute.png";
+import video from "./video1.png";
 export default function Video() {
   var Peer = require("simple-peer");
-
 
   navigator.mediaDevices
     .getUserMedia({ video: true, audio: true })
@@ -22,40 +23,38 @@ export default function Video() {
     });
 
     peer.on("signal", function (data) {
-      document.getElementById("yourId").innerHTML = JSON.stringify(data)
+      document.getElementById("yourId").innerHTML = JSON.stringify(data);
     });
     console.log("qweqwe1");
     document.getElementById("connect").onclick = function () {
-      peer.signal(JSON.parse( document.getElementById('otherId').value))
+      peer.signal(JSON.parse(document.getElementById("otherId").value));
     };
     peer.on("data", function (data) {
       document.getElementById("messages").textContent += data + "\n";
     });
 
     peer.on("stream", function (stream) {
-      const video = document.getElementById("other")
+      const video = document.getElementById("other");
 
       video.srcObject = stream;
       video.play();
     });
   }
 
-  function handleLocalMediaStreamError(error){
-    console.log("error",);
+  function handleLocalMediaStreamError(error) {
+    console.log("error");
   }
- 
 
-    //   connectclk = (peer) => {
-    //     console.log("qweqwe");
-    //   var otherId = JSON.parse(document.getElementById('otherId').value)
-    //   peer.signal(otherId)
-    // }
+  //   connectclk = (peer) => {
+  //     console.log("qweqwe");
+  //   var otherId = JSON.parse(document.getElementById('otherId').value)
+  //   peer.signal(otherId)
+  // }
 
-    //  var sendclk = (peer) => {
-    //   var yourMessage = document.getElementById('yourMessage').value
-    //   peer.send(yourMessage)
-    // }
- 
+  //  var sendclk = (peer) => {
+  //   var yourMessage = document.getElementById('yourMessage').value
+  //   peer.send(yourMessage)
+  // }
 
   // get video/voice stream
   // navigator.mediaDevices.getUserMedia({
@@ -112,11 +111,27 @@ export default function Video() {
   //   .catch(handleLocalMediaStreamError);
   return (
     <div>
-    <div>
-    <video  id="my"></video>
-      <video  id="other"></video>
-    </div>
-    
+      <div>
+        <div className="myvideo">
+          <video id="my"></video>
+          <div className="pos">
+            <div className="images">
+              <div>
+                <img src={video} alt="" />
+              </div>
+              <div>
+                <img src={mute} alt="" />
+              </div>
+              <div>
+                <img src={close} alt="" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <video id="other"></video>
+      </div>
+
       <label>Your ID:</label>
       <br />
       <textarea id="yourId"></textarea>
@@ -126,7 +141,6 @@ export default function Video() {
       <textarea id="otherId"></textarea>
       <button id="connect">connect</button>
       <br />
-      
     </div>
   );
 }
