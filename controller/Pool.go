@@ -2,8 +2,6 @@ package controller
 
 import (
 	"log"
-
-	"github.com/OIYNLine/controller/utils"
 )
 
 var freePools = make(map[string]*Pool)
@@ -28,10 +26,10 @@ type FreePool struct {
 	PlayerCount int    `gorm:"size:255;" json:"playercount"`
 }
 
-func NewPool() *Pool {
-	name := utils.RandString(16)
+func NewPool(n string) *Pool {
+	//name := utils.RandString(16)
 	pool := &Pool{
-		Name:         name,
+		Name:         n,
 		Register:     make(chan *Client),
 		Unregister:   make(chan *Client),
 		Clients:      make(map[*Client]bool),
@@ -40,7 +38,7 @@ func NewPool() *Pool {
 		Ready:        make(chan *Client),
 	}
 
-	freePools[name] = pool
+	freePools[n] = pool
 	log.Printf("Pool %s created", pool.Name)
 	return pool
 }

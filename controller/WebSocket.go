@@ -35,16 +35,20 @@ func (s *Server) serveWs(c *gin.Context) {
 	var pool *Pool
 	poolId := c.Param("id")
 	poolType := c.Query("type")
-	if len(freePools) > 0 {
+	log.Println(":::::::::::::::::::::::::::::")
+	log.Println(poolId)
+	log.Println(poolType)
+	log.Println(":::::::::::::::::::::::::::::")
+	if poolType == "join" {
 		for _, p := range freePools {
 			pool = p
 			break
 		}
-	} else {
-		pool = NewPool()
+	} else if poolType == "create" {
+		pool = NewPool(poolId)
 		go pool.Start()
 	}
-	pool = NewPool()
+	//pool = NewPool(poolId)
 	go pool.Start()
 	client := &Client{
 		Conn: conn,
