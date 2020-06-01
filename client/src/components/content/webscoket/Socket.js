@@ -1,5 +1,5 @@
 export const sockett = (cb) => {
-  var socket = new WebSocket("ws://localhost:8080/api/tictactoe-menu/game/ws");
+  var socket = new WebSocket("ws://localhost:8080/api/tictactoe-menu/123");
 
     console.log("Attempting Connection...");
 

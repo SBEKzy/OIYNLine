@@ -8,6 +8,23 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type LivePool struct {
+	ID          int    `gorm:"primary_key;auto_increment" json:"id"`
+	Name        string `gorm:"size:255;" json:"name"`
+	Player1     string `gorm:"size:255;" json:"player1"`
+	Player2     string `gorm:"size:255;" json:"player2"`
+	PlayerCount int    `gorm:"size:255;" json:"playercount"`
+}
+
+type EndPool struct {
+	ID          int    `gorm:"primary_key;auto_increment" json:"id"`
+	Name        string `gorm:"size:255;" json:"name"`
+	Player1     string `gorm:"size:255;" json:"player1"`
+	Player2     string `gorm:"size:255;" json:"player2"`
+	PlayerCount int    `gorm:"size:255;" json:"playercount"`
+	Win         int    `gorm:"size:255;" json:"playercount"`
+}
+
 func (s *Server) TictacMenu(c *gin.Context) {
 	var freepools []FreePool
 	log.Println("sdfghjkwoiuytghj")
