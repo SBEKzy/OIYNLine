@@ -63,7 +63,13 @@ func (c *Client) Read(s *Server) {
 				s.DB.Model(&freePool).Where("name = ?", c.Pool.Name).Update("Player1", body.Name)
 			}
 		}
-
+		// result := LivePool{ID:freePool.ID,Name: freePool.Name,}
+		// log.Println(&freePool)
+		// if err := s.DB.Debug().Create(&result).Error; err != nil {
+		// 	fmt.Println(err)
+		// 	c.JSON(http.StatusInternalServerError, gin.H{"err": "InternalServerError"})
+		// 	return
+		// }
 		/*if body[0] == "ready" {
 			c.Ready = true
 			c.Pool.Ready <- c
@@ -73,7 +79,9 @@ func (c *Client) Read(s *Server) {
 			c.Pool.Ready <- c
 			body[0] = body[1]
 		}*/
-
+		// if len(c.Pool.ReadyClients) == 2 {
+		// 	s.DB.Where("email = ?", c.Pool.Name).Delete(&freePool)
+		// }
 		message := Message{Type: messageType, Gamer: len(c.Pool.Clients), Nothing: body, Ready: len(c.Pool.ReadyClients)}
 		c.Pool.Broadcast <- message
 	}
