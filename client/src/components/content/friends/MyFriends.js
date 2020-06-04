@@ -26,7 +26,14 @@ export default class FriendsRequest extends React.Component {
     return (
       <div className="friends-body-items">
         {this.state.friends.map((v, i) => (
-          <FriendsBodyItems for="friends" user={v.username} key={i} id={v.id} />
+          <FriendsBodyItems
+            for="friends"
+            user={v.username}
+            key={i}
+            id={v.id}
+            name={v.name}
+            lname={v.lastname}
+          />
         ))}
       </div>
     );

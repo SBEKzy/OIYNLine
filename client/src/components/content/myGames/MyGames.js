@@ -32,6 +32,7 @@ export default class MyGames extends React.Component {
                 auth={this.context.Auth.isAuthenticated}
                 name={v}
                 key={i}
+                price={0}
                 gameId={i}
                 userId={this.context.Auth.user}
               />

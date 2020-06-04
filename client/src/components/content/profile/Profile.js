@@ -299,7 +299,7 @@ export default class Login extends React.Component {
               <AchiDiagram
                 numWins={3}
                 numLoses={3}
-                numDraw={3}
+                numDraw={0}
                 fill="#8884d8"
               />
             </div>
@@ -308,24 +308,24 @@ export default class Login extends React.Component {
           <div className="col-md-4 diagram">
             <div>
               <AchiDiagram
-                numWins={3}
-                numLoses={3}
+                numWins={1}
+                numLoses={2}
                 numDraw={3}
                 fill="#10e348"
               />
             </div>
-            <div className="diagram-header">Крестики-нолики</div>
+            <div className="diagram-header">Го</div>
           </div>
           <div className="col-md-4 diagram">
             <div>
               <AchiDiagram
-                numWins={3}
-                numLoses={3}
-                numDraw={3}
+                numWins={1}
+                numLoses={1}
+                numDraw={2}
                 fill="#e310a4"
               />
             </div>
-            <div className="diagram-header">Крестики-нолики</div>
+            <div className="diagram-header">Уно</div>
           </div>
         </div>
 

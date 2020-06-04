@@ -13,10 +13,10 @@ export default class FriendsSearch extends React.Component {
     e.preventDefault();
     const name = e.target.elements["name"].value;
     Axios.get("http://localhost:8080/api/searchFriend/" + name).then((res) => {
-       console.log(res.data.result);
-      if(res.data.result === undefined){
+      console.log(res.data.result);
+      if (res.data.result === undefined) {
         this.setState({ friends: [] });
-      }else{
+      } else {
         this.setState({ friends: [...res.data.result] });
       }
     });
@@ -37,14 +37,21 @@ export default class FriendsSearch extends React.Component {
               type="submit"
               className="btn btn-white btn-round btn-just-icon"
             >
-              <i className="material-icons">Search</i>
+              <i className="material-icons">search</i>
               <div className="ripple-container"></div>
             </button>
           </div>
         </form>
         <div className="friends-body-items">
-          {this.state.friends.map((v,i) => (
-            <FriendsBodyItems for="search" user={v.username} key={i} id={v.id}/>
+          {this.state.friends.map((v, i) => (
+            <FriendsBodyItems
+              for="search"
+              user={v.username}
+              key={i}
+              id={v.id}
+              name={v.name}
+              lname={v.lastname}
+            />
           ))}
         </div>
       </div>

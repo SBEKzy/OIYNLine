@@ -33,6 +33,9 @@ export default class FriendsRequest extends React.Component {
               key={i}
               id={v.id}
               req={v.req}
+              name={v.name}
+              lname={v.lastname}
+              level={v.level}
             />
           ))}
         </div>

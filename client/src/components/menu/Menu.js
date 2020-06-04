@@ -41,7 +41,7 @@ export default class Menu extends React.Component {
             </li>
             <li className="nav-item  ">
               <Link className="nav-link" to="/my-games">
-                <i className="material-icons">dashboard</i>
+                <i className="material-icons">favorite</i>
                 <p>Мои игры</p>
               </Link>
             </li>
@@ -57,12 +57,7 @@ export default class Menu extends React.Component {
                 <p>Сообщество</p>
               </Link>
             </li>
-            <li className="nav-item  ">
-              <Link className="nav-link" to="/video">
-                <i className="material-icons">library_books</i>
-                <p>Видео</p>
-              </Link>
-            </li>
+            
           </ul>
         </div>
       </div>

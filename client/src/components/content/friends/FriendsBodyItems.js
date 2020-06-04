@@ -74,7 +74,11 @@ export default class FriendsBodyItems extends React.Component {
           <img src={person} alt="" />
         </div>
         <div className="friends-body-item-body">
-          <div>{this.props.user}</div>
+          <div>
+          <div>{this.props.name} {this.props.lname}</div>
+          <div></div>
+          <div>[{this.props.user}] [Новичок] [Уровень 1]</div>
+          </div>
 
           {this.props.for == "search" ? (
             <div>
