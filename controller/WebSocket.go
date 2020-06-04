@@ -60,9 +60,6 @@ func (s *Server) serveWs(c *gin.Context) {
 			return
 		}
 	}
-
-	//log.Printf("-----", user.Username)
 	pool.Register <- client
-	//log.Printf("-------", pool.Register)
 	client.Read(s)
 }

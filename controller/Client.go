@@ -29,6 +29,28 @@ type MsgPlayerNameRegister struct {
 	Type string `json:"type"`
 }
 
+// log.Println("BEKZYYYYYYYY")
+// log.Println("BEKZYYY234234Y")
+// log.Println("BEKZYYY234234Y123")
+// log.Println("BEKZYYY234234Y121233")
+// log.Println(body)
+// log.Println("BEKZY123456789")
+// log.Println(body.Name)
+/*if err := s.DB.Debug().Where("name = ?", c.Pool.Name).Find(&freePool).Error; err != nil {
+	log.Println("Can not find username in database: ", c.Pool.Name)
+	return
+}*/
+// log.Println(c.Pool.Name)
+// log.Println(body)
+// if body[0] == "ready" {
+// 	c.Ready = true
+// 	c.Pool.Ready <- c
+// 	body[0] = body[1]
+// } else if body[0] == "notready" {
+// 	c.Ready = false
+// 	c.Pool.Ready <- c
+// 	body[0] = body[1]
+// }
 var bbb = []string{"", "", "", "", "", "", "", "", ""}
 
 func (c *Client) Read(s *Server) {
@@ -39,8 +61,6 @@ func (c *Client) Read(s *Server) {
 		c.Conn.Close()
 	}()
 	for {
-		log.Println("BEKZYYYYYYYY")
-		log.Println("BEKZYYY234234Y")
 		messageType, p, err := c.Conn.ReadMessage()
 		log.Println(err)
 		if err != nil {
@@ -49,20 +69,12 @@ func (c *Client) Read(s *Server) {
 		}
 		var body *MsgPlayerNameRegister
 		test := body
-		log.Println("BEKZYYY234234Y123")
 		err = json.Unmarshal(p, &body)
-		log.Println("BEKZYYY234234Y121233")
 		log.Println(p)
 		if err == nil {
-			log.Println(body)
-			log.Println("BEKZY123456789")
-			log.Println(body.Name)
+
 			s.DB.Where("name = ?", c.Pool.Name).Find(&freePool)
-			/*if err := s.DB.Debug().Where("name = ?", c.Pool.Name).Find(&freePool).Error; err != nil {
-				log.Println("Can not find username in database: ", c.Pool.Name)
-				return
-			}*/
-			log.Println(c.Pool.Name)
+
 			if freePool.Player1 != "" {
 				s.DB.Model(&freePool).Where("name = ?", c.Pool.Name).Update("Player2", body.Name)
 			} else {
@@ -82,16 +94,6 @@ func (c *Client) Read(s *Server) {
 			c.Pool.Broadcast <- message
 		} else {
 			body := Convert(&p)
-			log.Println(body)
-			if body[0] == "ready" {
-				c.Ready = true
-				c.Pool.Ready <- c
-				body[0] = body[1]
-			} else if body[0] == "notready" {
-				c.Ready = false
-				c.Pool.Ready <- c
-				body[0] = body[1]
-			}
 			log.Println(c.Pool)
 			message := Message{Type: messageType, Gamer: len(c.Pool.Clients), Body: body, Nothing: test, Ready: len(c.Pool.ReadyClients)}
 			log.Println(message)

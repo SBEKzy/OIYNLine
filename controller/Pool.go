@@ -26,8 +26,9 @@ type FreePool struct {
 	PlayerCount int    `gorm:"size:255;" json:"playercount"`
 }
 
+//name := utils.RandString(16)
 func NewPool(n string) *Pool {
-	//name := utils.RandString(16)
+
 	pool := &Pool{
 		Name:         n,
 		Register:     make(chan *Client),
@@ -56,7 +57,6 @@ func (p *Pool) Start() {
 		case client := <-p.Register:
 			p.Clients[client] = true
 			log.Printf("Client %d has joined to pool:%s", len(p.Clients), p.Name)
-			//log.Printf("Client", client)
 			if len(p.Clients) == 2 {
 				delete(freePools, p.Name)
 				for client, _ := range p.Clients {
