@@ -2,6 +2,7 @@ import React from "react";
 import "./Menu.css";
 import { sockett } from "../../../content/webscoket/Socket.js";
 import { Redirect } from "react-router";
+import Game from "../Game";
 import Axios from "axios";
 export default class Menu extends React.Component {
   state = {
@@ -12,7 +13,7 @@ export default class Menu extends React.Component {
     pools: [],
   };
   componentDidMount() {
-    const t = (msg) => {
+    const t =( (msg) => {
       if (this.state.gameStart) {
         const data = JSON.parse(msg.data);
         if (data.ready === 2) {
@@ -21,16 +22,20 @@ export default class Menu extends React.Component {
           this.setState({ x: true });
         }
       }
-    };
-    this.setState({ socket: sockett(t) });
-    Axios.get("http://localhost:8080/api/tictactoe-menuu").then((res) => {
-      console.log("ffffffffffffffffffffffffff", res.data.data); // friend id ala alam
-      if (res.data.data === undefined || res.data.data === null) {
-        this.setState({ pools: [] });
-      } else {
-        this.setState({ pools: [...res.data.data] });
-      }
+    // };
+    // this.setState({ socket: sockett(t) });
+    // Axios.get("http://localhost:8080/api/tictactoe-menu/testestest?type=Create").then((res) => {
+    //   console.log("ffffffffffffffffffffffffff", res.data.data); // friend id ala alam
+    //   if (res.data.data === undefined || res.data.data === null) {
+    //     this.setState({ pools: [] });
+    //   } else {
+    //     this.setState({ pools: [...res.data.data] });
+    //   }
     });
+    const { type } = this.props.location.state
+    const { name } = this.props.location.state
+    
+    this.setState({ socket: sockett(t,type,name) })
   }
   gameStart = () => {
     this.setState({ gameStart: !this.state.gameStart });
@@ -53,7 +58,9 @@ export default class Menu extends React.Component {
           to={{
             pathname: "/tictactoe",
             state: {
-              x: this.state.x,
+              x: "sdfsd",
+              
+             
             },
           }}
         />
@@ -73,40 +80,8 @@ export default class Menu extends React.Component {
           <button>Правила</button>
           <button>Выход</button>
         </div>
-        <div>
-          <div class="table-responsive">
-            <table class="table table-hover">
-              <thead class="">
-                <th>name</th>
-                <th>player1</th>
-                <th>player2</th>
-                <th>playercount</th>
-                <th>Уровень</th>
-              </thead>
-              <tbody>
-                {this.state.pools != null ? (
-                  this.state.pools.map((v, i) => (
-                    <tr key={i}>
-                      <td>{v.name}</td>
-                      <td>{v.player1}</td>
-                      <td>{v.player2}</td>
-                      <td>{v.playercount}</td>
-                      <td>{}</td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
+
+        <Game x={this.props.location.state.x}/>
       </div>
     );
   }

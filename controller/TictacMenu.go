@@ -27,6 +27,7 @@ type EndPool struct {
 
 func (s *Server) TictacMenu(c *gin.Context) {
 	var freepools []FreePool
+	var livepools []LivePool
 	log.Println("sdfghjkwoiuytghj")
 	if err := s.DB.Debug().Find(&freepools).Error; err != nil {
 		fmt.Println("FreePool - Error - ", err)
@@ -35,12 +36,21 @@ func (s *Server) TictacMenu(c *gin.Context) {
 		})
 		return
 	}
+	if err := s.DB.Debug().Find(&livepools).Error; err != nil {
+		fmt.Println("LivePool - Error - ", err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"Error": "InternalServerError.",
+		})
+		return
+	}
 	/*achievements := getFreepools(freepools, s)*/
 	log.Println("sdfghjkwoiuytghj")
 	log.Println(freepools)
+	log.Println(livepools)
 	c.JSON(http.StatusOK, gin.H{
-		"status": http.StatusOK,
-		"data":   freepools,
+		"status":   http.StatusOK,
+		"data":     freepools,
+		"livepool": livepools,
 	})
 }
 

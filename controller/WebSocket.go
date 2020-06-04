@@ -25,41 +25,42 @@ func Upgrade(w http.ResponseWriter, r *http.Request) (*websocket.Conn, error) {
 }
 
 func (s *Server) serveWs(c *gin.Context) {
-	//var user models.User
-
 	conn, err := Upgrade(c.Writer, c.Request)
-	//log.Print(conn)
 	if err != nil {
 		fmt.Fprintf(c.Writer, "%+V\n", err)
 	}
+	//var user models.User
+	//log.Print(conn)
+	// log.Println(":::::::::::::::::::::::::::::")
+	// log.Println(poolId)
+	// log.Println(poolType)
+	// log.Println(":::::::::::::::::::::::::::::")
 	var pool *Pool
-	poolId := c.Param("id")
+	poolID := c.Param("id")
 	poolType := c.Query("type")
-	log.Println(":::::::::::::::::::::::::::::")
-	log.Println(poolId)
-	log.Println(poolType)
-	log.Println(":::::::::::::::::::::::::::::")
 	if poolType == "join" {
 		for _, p := range freePools {
 			pool = p
 			break
 		}
 	} else if poolType == "create" {
-		pool = NewPool(poolId)
+		pool = NewPool(poolID)
 		go pool.Start()
 	}
-	//pool = NewPool(poolId)
-	go pool.Start()
 	client := &Client{
 		Conn: conn,
 		Pool: pool,
 	}
 	result := FreePool{Name: pool.Name}
-	if err := s.DB.Debug().Create(&result).Error; err != nil {
-		fmt.Println(err)
-		c.JSON(http.StatusInternalServerError, gin.H{"err": "InternalServerError"})
-		return
+	log.Println(result)
+	if poolType == "create" {
+		if err := s.DB.Debug().Create(&result).Error; err != nil {
+			fmt.Println(err)
+			c.JSON(http.StatusInternalServerError, gin.H{"err": "InternalServerError"})
+			return
+		}
 	}
+
 	//log.Printf("-----", user.Username)
 	pool.Register <- client
 	//log.Printf("-------", pool.Register)

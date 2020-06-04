@@ -85,10 +85,13 @@ func (p *Pool) Start() {
 		case ReadyClients := <-p.Ready:
 			if ReadyClients.Ready {
 				p.ReadyClients[ReadyClients] = true
+				log.Println(p.ReadyClients[ReadyClients])
 			} else {
 				delete(p.ReadyClients, ReadyClients)
 			}
 			for clinet, _ := range p.Clients {
+				log.Println(Message{Type: 1, Gamer: len(p.Clients), Body: bbb, Ready: len(p.ReadyClients)})
+				log.Println(p)
 				clinet.Conn.WriteJSON(Message{Type: 1, Gamer: len(p.Clients), Body: bbb, Ready: len(p.ReadyClients)})
 			}
 		}

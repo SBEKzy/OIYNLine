@@ -8,7 +8,8 @@ import Account from "./account/Account";
 import MainChat from "./mainChat/MainChat";
 import {  Switch, Route } from "react-router-dom";
 import TicTacToe from '../game/tictactoe/Game'
-import TicTacToeMenu from '../game/tictactoe/menu/Menu'
+import TicTacToeMenu from '../game/tictactoe/Menu'
+import TicTacToeMenuMenu from '../game/tictactoe/menu/Menu'
 import Achievement from "../content/achievement/Achievement"
 import Video from "../content/video/Video"
 import Main from "../content/main/Main"
@@ -28,6 +29,7 @@ export default class Content extends React.Component {
           <Route exact path="/account" component={Account} />
           <Route exact path="/tictactoe" component={TicTacToe} />
           <Route exact path="/tictactoe-menu" component={TicTacToeMenu} />
+          <Route exact path="/tictactoe-menu/:id" component={TicTacToeMenuMenu} />
           <Route exact path="/achievement" component={Achievement} />
           <Route exact path="/chat" component={MainChat} />
           <Route exact path="/control" component={Control} />
